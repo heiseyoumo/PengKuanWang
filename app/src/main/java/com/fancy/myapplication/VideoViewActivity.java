@@ -47,7 +47,7 @@ public class VideoViewActivity extends Activity {
     private static final int READY_BUFF = 2000 * 1024;
     private int mediaLength;
     private int curPosition = 0;
-    private boolean isPlay = true;
+    public static final int BTN_GONE=101;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -86,6 +86,27 @@ public class VideoViewActivity extends Activity {
                     }
                     Log.d("VideoViewActivity", s);
                     mHandler.sendEmptyMessageDelayed(VIDEO_STATE_UPDATE, 1000);
+                    break;
+                default:
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
+
+    private static final int a = 1, b = 2, c = 3;
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case a:
+                    imageView.setVisibility(View.GONE);
+                    break;
+                case b:
+                    imageView.setVisibility(View.GONE);
+                    break;
+                case c:
                     break;
                 default:
                     break;
@@ -148,13 +169,8 @@ public class VideoViewActivity extends Activity {
             @Override
             public void onClick(View v) {
                 imageView.setVisibility(View.VISIBLE);
-                if (isPlay) {
-                    mHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            imageView.setVisibility(View.GONE);
-                        }
-                    }, 2000);
+                if(!mVideoView.isPlaying()){
+                   handler.sendEmptyMessageDelayed(a, 2000);
                 }
             }
         });
@@ -162,8 +178,9 @@ public class VideoViewActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (mVideoView.isPlaying()) {
-                    isPlay = false;
                     mVideoView.pause();
+                    handler.removeMessages(a);
+                    handler.removeMessages(b);
                     mHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -171,15 +188,9 @@ public class VideoViewActivity extends Activity {
                         }
                     }, 200);
                 } else {
-                    isPlay = true;
                     imageView.setBackgroundResource(R.drawable.play_video);
                     mVideoView.start();
-                    mHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            imageView.setVisibility(View.GONE);
-                        }
-                    }, 2000);
+                    handler.sendEmptyMessageDelayed(b, 2000);
                 }
             }
         });
