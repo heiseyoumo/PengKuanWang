@@ -150,7 +150,7 @@ public class VideoViewActivity extends Activity {
             @Override
             public void onClick(View v) {
                 imageView.setVisibility(View.VISIBLE);
-                if (!mVideoView.isPlaying()) {
+                if (mVideoView.isPlaying()) {
                     mHandler.sendEmptyMessageDelayed(BTN_GONE, 2000);
                 }
             }
