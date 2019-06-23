@@ -35,6 +35,7 @@ public class VideoViewActivity extends Activity {
     CustomVideoView mVideoView;
     TextView textView;
     ImageView imageView;
+    ImageView imageView1;
     public static final int HASH_CACHE = 1000;
     private final static int VIDEO_DOWN_SUCCESS = 1002;
     private final static int VIDEO_DOWN_READY = 1003;
@@ -58,6 +59,7 @@ public class VideoViewActivity extends Activity {
                     mVideoView.start();
                     break;
                 case VIDEO_DOWN_READY:
+                    imageView1.setVisibility(View.GONE);
                     isReady = !isReady;
                     mVideoView.setVideoPath(storageCache);
                     mVideoView.start();
@@ -107,6 +109,7 @@ public class VideoViewActivity extends Activity {
         videoUrl = getIntent().getStringExtra("url");
         mVideoView = findViewById(R.id.videoView);
         imageView = findViewById(R.id.imageView);
+        imageView1 = findViewById(R.id.imageView1);
         imageView.setVisibility(View.GONE);
         textView = findViewById(R.id.textView);
         int lastIndexOf = videoUrl.lastIndexOf("/");
@@ -129,7 +132,6 @@ public class VideoViewActivity extends Activity {
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
-                Toast.makeText(VideoViewActivity.this, "准备完毕", Toast.LENGTH_SHORT).show();
                 mp.start();
             }
         });
