@@ -47,7 +47,7 @@ public class VideoViewActivity extends Activity {
     private static final int READY_BUFF = 2000 * 1024;
     private int mediaLength;
     private int curPosition = 0;
-    public static final int BTN_GONE=101;
+    public static final int BTN_GONE = 101;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -84,29 +84,10 @@ public class VideoViewActivity extends Activity {
                         s += String.format(" 播放: %02d:%02d:%02d [%.2f%%]", hour,
                                 minute, second, playPercent);
                     }
-                    Log.d("VideoViewActivity", s);
                     mHandler.sendEmptyMessageDelayed(VIDEO_STATE_UPDATE, 1000);
                     break;
-                default:
-                    break;
-            }
-            super.handleMessage(msg);
-        }
-    };
-
-    private static final int a = 1, b = 2, c = 3;
-
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case a:
+                case BTN_GONE:
                     imageView.setVisibility(View.GONE);
-                    break;
-                case b:
-                    imageView.setVisibility(View.GONE);
-                    break;
-                case c:
                     break;
                 default:
                     break;
@@ -169,8 +150,8 @@ public class VideoViewActivity extends Activity {
             @Override
             public void onClick(View v) {
                 imageView.setVisibility(View.VISIBLE);
-                if(!mVideoView.isPlaying()){
-                   handler.sendEmptyMessageDelayed(a, 2000);
+                if (!mVideoView.isPlaying()) {
+                    mHandler.sendEmptyMessageDelayed(BTN_GONE, 2000);
                 }
             }
         });
@@ -179,18 +160,12 @@ public class VideoViewActivity extends Activity {
             public void onClick(View v) {
                 if (mVideoView.isPlaying()) {
                     mVideoView.pause();
-                    handler.removeMessages(a);
-                    handler.removeMessages(b);
-                    mHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            imageView.setBackgroundResource(R.drawable.pause_video);
-                        }
-                    }, 200);
+                    mHandler.removeMessages(BTN_GONE);
+                    imageView.setBackgroundResource(R.drawable.pause_video);
                 } else {
-                    imageView.setBackgroundResource(R.drawable.play_video);
                     mVideoView.start();
-                    handler.sendEmptyMessageDelayed(b, 2000);
+                    imageView.setBackgroundResource(R.drawable.play_video);
+                    mHandler.sendEmptyMessageDelayed(BTN_GONE, 2000);
                 }
             }
         });
