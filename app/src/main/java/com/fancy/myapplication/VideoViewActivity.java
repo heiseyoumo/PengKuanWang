@@ -55,6 +55,7 @@ public class VideoViewActivity extends Activity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case HASH_CACHE:
+                    imageView1.setVisibility(View.GONE);
                     mVideoView.setVideoPath(storageCache);
                     mVideoView.start();
                     break;
