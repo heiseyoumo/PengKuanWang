@@ -100,6 +100,23 @@ public class VideoViewActivity extends Activity {
         }
     };
 
+    int a = 0, b = 1, c = 2;
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 0:
+                    break;
+                case 1:
+                    break;
+                default:
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,7 +129,6 @@ public class VideoViewActivity extends Activity {
         mVideoView = findViewById(R.id.videoView);
         imageView = findViewById(R.id.imageView);
         imageView1 = findViewById(R.id.imageView1);
-        imageView.setVisibility(View.GONE);
         textView = findViewById(R.id.textView);
         int lastIndexOf = videoUrl.lastIndexOf("/");
         cacheVideoUrl = videoUrl.substring(lastIndexOf + 1);
@@ -150,6 +166,9 @@ public class VideoViewActivity extends Activity {
                 return false;
             }
         });
+
+        handler.sendEmptyMessageDelayed(a, 2000);
+
         mVideoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
