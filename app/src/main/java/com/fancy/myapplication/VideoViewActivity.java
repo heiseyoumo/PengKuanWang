@@ -107,6 +107,7 @@ public class VideoViewActivity extends Activity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
+                    imageView.setVisibility(View.GONE);
                     break;
                 case 1:
                     break;
