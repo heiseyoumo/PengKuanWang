@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -111,7 +110,6 @@ public class VideoViewActivity extends Activity {
         setContentView(R.layout.activity_video_view);
         videoUrl = getIntent().getStringExtra("url");
         mVideoView = findViewById(R.id.videoView);
-        mVideoView.setMediaController(new MediaController(this));
         imageView = findViewById(R.id.imageView);
         imageView1 = findViewById(R.id.imageView1);
         imageView.setVisibility(View.GONE);
