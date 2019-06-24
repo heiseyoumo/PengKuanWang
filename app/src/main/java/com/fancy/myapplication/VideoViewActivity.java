@@ -87,6 +87,7 @@ public class VideoViewActivity extends Activity {
 
                         s += String.format(" 播放: %02d:%02d:%02d [%.2f%%]", hour,
                                 minute, second, playPercent);
+                        Log.d("VideoViewActivity", s);
                     }
                     mHandler.sendEmptyMessageDelayed(VIDEO_STATE_UPDATE, 1000);
                     break;
