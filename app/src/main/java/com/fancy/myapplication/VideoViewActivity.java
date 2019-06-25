@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -49,37 +50,49 @@ public class VideoViewActivity extends Activity {
     private int mediaLength;
     private int curPosition = 0;
     public static final int BTN_GONE = 101;
+    MyHandler mHandler;
 
-    private Handler mHandler = new Handler() {
+    static class MyHandler extends Handler {
+        WeakReference<VideoViewActivity> weakReference;
+
+        public MyHandler(VideoViewActivity activity) {
+            weakReference = new WeakReference<>(activity);
+        }
+
         @Override
         public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            VideoViewActivity activity = weakReference.get();
+            if (activity == null) {
+                return;
+            }
             switch (msg.what) {
                 case HASH_CACHE:
-                    imageView1.setVisibility(View.GONE);
-                    mVideoView.setVideoPath(storageCache);
-                    mVideoView.start();
+                    activity.imageView1.setVisibility(View.GONE);
+                    activity.mVideoView.setVideoPath(activity.storageCache);
+                    activity.mVideoView.start();
                     break;
                 case VIDEO_DOWN_READY:
-                    imageView1.setVisibility(View.GONE);
-                    isReady = !isReady;
-                    mVideoView.setVideoPath(storageCache);
-                    mVideoView.start();
+                    activity.imageView1.setVisibility(View.GONE);
+                    activity.isReady = !activity.isReady;
+                    activity.mVideoView.setVideoPath(activity.storageCache);
+                    activity.mVideoView.start();
                     break;
                 case VIDEO_DOWN_SUCCESS:
-                    Toast.makeText(VideoViewActivity.this, "视频下载成功,请放心观看", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "视频下载成功,请放心观看", Toast.LENGTH_SHORT).show();
                     break;
                 case VIDEO_STATE_UPDATE:
-                    double cachePercent = readSize * 100.00 / mediaLength * 1.0;
+                    double cachePercent = activity.readSize * 100.00 / activity.mediaLength * 1.0;
                     String s = String.format("已缓存: [%.2f%%]", cachePercent);
 
-                    if (mVideoView.isPlaying()) {
-                        curPosition = mVideoView.getCurrentPosition();
-                        int duration = mVideoView.getDuration();
+                    if (activity.mVideoView.isPlaying()) {
+                        activity.curPosition = activity.mVideoView.getCurrentPosition();
+                        int duration = activity.mVideoView.getDuration();
                         duration = duration == 0 ? 1 : duration;
 
-                        double playPercent = curPosition * 100.00 / duration * 1.0;
+                        double playPercent = activity.curPosition * 100.00 / duration * 1.0;
 
-                        int i = curPosition / 1000;
+                        int i = activity.curPosition / 1000;
                         int hour = i / (60 * 60);
                         int minute = i / 60 % 60;
                         int second = i % 60;
@@ -88,17 +101,16 @@ public class VideoViewActivity extends Activity {
                                 minute, second, playPercent);
                         Log.d("VideoViewActivity", s);
                     }
-                    mHandler.sendEmptyMessageDelayed(VIDEO_STATE_UPDATE, 1000);
+                    activity.mHandler.sendEmptyMessageDelayed(VIDEO_STATE_UPDATE, 1000);
                     break;
                 case BTN_GONE:
-                    imageView.setVisibility(View.GONE);
+                    activity.imageView.setVisibility(View.GONE);
                     break;
                 default:
                     break;
             }
-            super.handleMessage(msg);
         }
-    };
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,7 +161,7 @@ public class VideoViewActivity extends Activity {
                 return false;
             }
         });
-
+        mHandler = new MyHandler(this);
         mHandler.sendEmptyMessageDelayed(BTN_GONE, 2000);
 
         mVideoView.setOnClickListener(new View.OnClickListener() {
