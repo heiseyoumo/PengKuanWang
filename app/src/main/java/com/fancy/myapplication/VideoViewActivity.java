@@ -100,24 +100,6 @@ public class VideoViewActivity extends Activity {
         }
     };
 
-    int a = 0, b = 1, c = 2;
-
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0:
-                    imageView.setVisibility(View.GONE);
-                    break;
-                case 1:
-                    break;
-                default:
-                    break;
-            }
-            super.handleMessage(msg);
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,29 +150,32 @@ public class VideoViewActivity extends Activity {
             }
         });
 
-        handler.sendEmptyMessageDelayed(a, 2000);
+        mHandler.sendEmptyMessageDelayed(BTN_GONE, 2000);
 
         mVideoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageView.setVisibility(View.VISIBLE);
-                if (mVideoView.isPlaying()) {
-                    mHandler.sendEmptyMessageDelayed(BTN_GONE, 2000);
+                if (imageView.getVisibility() == View.GONE) {
+                    imageView.setVisibility(View.VISIBLE);
+                } else {
+                    imageView.setVisibility(View.GONE);
                 }
+                mHandler.removeMessages(BTN_GONE);
+                mHandler.sendEmptyMessageDelayed(BTN_GONE, 2000);
             }
         });
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mHandler.removeMessages(BTN_GONE);
                 if (mVideoView.isPlaying()) {
                     mVideoView.pause();
-                    mHandler.removeMessages(BTN_GONE);
                     imageView.setBackgroundResource(R.drawable.pause_video);
                 } else {
                     mVideoView.start();
                     imageView.setBackgroundResource(R.drawable.play_video);
-                    mHandler.sendEmptyMessageDelayed(BTN_GONE, 2000);
                 }
+                mHandler.sendEmptyMessageDelayed(BTN_GONE, 2000);
             }
         });
         ActivityCompat.requestPermissions(VideoViewActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_PERMISSION_CODE);
