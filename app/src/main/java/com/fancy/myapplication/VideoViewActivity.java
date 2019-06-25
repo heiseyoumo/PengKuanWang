@@ -128,6 +128,7 @@ public class VideoViewActivity extends Activity {
         int lastIndexOf = videoUrl.lastIndexOf("/");
         cacheVideoUrl = videoUrl.substring(lastIndexOf + 1);
         storageCache = getVideoCache();
+        mHandler = new MyHandler(this);
         if (isHasCache()) {
             mHandler.sendEmptyMessage(HASH_CACHE);
             Toast.makeText(this, "视频已经缓存不需要流量,请放心观看", Toast.LENGTH_SHORT).show();
@@ -161,7 +162,6 @@ public class VideoViewActivity extends Activity {
                 return false;
             }
         });
-        mHandler = new MyHandler(this);
         mHandler.sendEmptyMessageDelayed(BTN_GONE, 2000);
 
         mVideoView.setOnClickListener(new View.OnClickListener() {
