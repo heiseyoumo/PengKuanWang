@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -73,6 +74,7 @@ public class VideoViewActivity extends Activity {
         changeScreenImg = findViewById(R.id.changeScreenImg);
         rlContainer = findViewById(R.id.rlContainer);
         mHandler = new MyHandler(this);
+        mVideoView.setMediaController(new MediaController(this));
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
