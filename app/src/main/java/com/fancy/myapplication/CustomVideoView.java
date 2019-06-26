@@ -10,7 +10,7 @@ import android.widget.VideoView;
  * Created by Song on 2017/4/24.
  */
 
-public class CustomVideoView extends VideoView implements View.OnTouchListener{
+public class CustomVideoView extends VideoView implements View.OnTouchListener {
 
     private float lastX;
     private float lastY;
@@ -18,9 +18,11 @@ public class CustomVideoView extends VideoView implements View.OnTouchListener{
     private Context mContext;
     private StateListener mStateListener;
 
-    public interface StateListener{
+    public interface StateListener {
         void changeVolumn(float detlaY);
+
         void changeBrightness(float detlaX);
+
         void hideHint();
     }
 
@@ -29,11 +31,11 @@ public class CustomVideoView extends VideoView implements View.OnTouchListener{
     }
 
     public CustomVideoView(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public CustomVideoView(Context context, AttributeSet attrs) {
-        this(context, attrs,0);
+        this(context, attrs, 0);
     }
 
     public CustomVideoView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -45,9 +47,9 @@ public class CustomVideoView extends VideoView implements View.OnTouchListener{
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int width = getDefaultSize(1920,widthMeasureSpec);
-        int height = getDefaultSize(1080,heightMeasureSpec);
-        setMeasuredDimension(width,height);
+        int width = getDefaultSize(1920, widthMeasureSpec);
+        int height = getDefaultSize(1080, heightMeasureSpec);
+        setMeasuredDimension(width, height);
     }
 
     @Override
@@ -60,10 +62,10 @@ public class CustomVideoView extends VideoView implements View.OnTouchListener{
             case MotionEvent.ACTION_MOVE:
                 float detlaX = event.getX() - lastX;
                 float detlaY = event.getY() - lastY;
-                if(Math.abs(detlaX) > thresold && Math.abs(detlaY) < thresold) {
+                if (Math.abs(detlaX) > thresold && Math.abs(detlaY) < thresold) {
                     mStateListener.changeBrightness(detlaX);
                 }
-                if(Math.abs(detlaX) < thresold && Math.abs(detlaY) > thresold) {
+                if (Math.abs(detlaX) < thresold && Math.abs(detlaY) > thresold) {
                     mStateListener.changeVolumn(detlaY);
                 }
 
@@ -74,6 +76,6 @@ public class CustomVideoView extends VideoView implements View.OnTouchListener{
                 mStateListener.hideHint();
                 break;
         }
-        return true;
+        return false;
     }
 }

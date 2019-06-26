@@ -14,10 +14,8 @@ import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,7 +31,7 @@ import java.net.URL;
  */
 public class VideoViewActivity extends Activity {
     public String videoUrl;
-    VideoView mVideoView;
+    CustomVideoView mVideoView;
     ImageView imageView;
     public static final int HASH_CACHE = 1000;
     private final static int VIDEO_DOWN_SUCCESS = 1002;
@@ -111,7 +109,6 @@ public class VideoViewActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_video_view);
         videoUrl = getIntent().getStringExtra("url");
         mVideoView = findViewById(R.id.videoView);
@@ -135,6 +132,22 @@ public class VideoViewActivity extends Activity {
             public boolean onError(MediaPlayer mp, int what, int extra) {
                 Toast.makeText(VideoViewActivity.this, "播放失败", Toast.LENGTH_SHORT).show();
                 return false;
+            }
+        });
+        mVideoView.setStateListener(new CustomVideoView.StateListener() {
+            @Override
+            public void changeVolumn(float detlaY) {
+
+            }
+
+            @Override
+            public void changeBrightness(float detlaX) {
+
+            }
+
+            @Override
+            public void hideHint() {
+
             }
         });
         mVideoView.setVideoURI(Uri.parse(videoUrl));
