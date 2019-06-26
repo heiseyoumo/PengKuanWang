@@ -10,7 +10,6 @@ import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.ActivityCompat;
@@ -21,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import java.io.File;
 import java.lang.ref.WeakReference;
 
 /**
@@ -34,18 +32,7 @@ public class VideoViewActivity extends Activity {
     ImageView imageView;
     ImageView changeScreenImg;
     RelativeLayout rlContainer;
-    public static final int HASH_CACHE = 1000;
-    private final static int VIDEO_DOWN_SUCCESS = 1002;
-    private final static int VIDEO_DOWN_READY = 1003;
-    private final static int VIDEO_STATE_UPDATE = 1004;
     public static final int REQUEST_PERMISSION_CODE = 100;
-    private String storageCache;
-    private long readSize = 0;
-    String cacheVideoUrl;
-    private boolean isReady = false;
-    private static final int READY_BUFF = 2000 * 1024;
-    private int mediaLength;
-    private int curPosition = 0;
     public static final int BTN_GONE = 101;
     MyHandler mHandler;
     private boolean isVerticalScreen = true;
@@ -65,40 +52,6 @@ public class VideoViewActivity extends Activity {
                 return;
             }
             switch (msg.what) {
-                case HASH_CACHE:
-                    activity.mVideoView.setVideoPath(activity.storageCache);
-                    activity.mVideoView.start();
-                    break;
-                case VIDEO_DOWN_READY:
-                    activity.isReady = !activity.isReady;
-                    activity.mVideoView.setVideoPath(activity.storageCache);
-                    activity.mVideoView.start();
-                    break;
-                case VIDEO_DOWN_SUCCESS:
-                    Toast.makeText(activity, "视频下载成功,请放心观看", Toast.LENGTH_SHORT).show();
-                    break;
-                case VIDEO_STATE_UPDATE:
-                    double cachePercent = activity.readSize * 100.00 / activity.mediaLength * 1.0;
-                    String s = String.format("已缓存: [%.2f%%]", cachePercent);
-
-                    if (activity.mVideoView.isPlaying()) {
-                        activity.curPosition = activity.mVideoView.getCurrentPosition();
-                        int duration = activity.mVideoView.getDuration();
-                        duration = duration == 0 ? 1 : duration;
-
-                        double playPercent = activity.curPosition * 100.00 / duration * 1.0;
-
-                        int i = activity.curPosition / 1000;
-                        int hour = i / (60 * 60);
-                        int minute = i / 60 % 60;
-                        int second = i % 60;
-
-                        s += String.format(" 播放: %02d:%02d:%02d [%.2f%%]", hour,
-                                minute, second, playPercent);
-                        Log.d("VideoViewActivity", s);
-                    }
-                    activity.mHandler.sendEmptyMessageDelayed(VIDEO_STATE_UPDATE, 1000);
-                    break;
                 case BTN_GONE:
                     activity.imageView.setVisibility(View.GONE);
                     break;
@@ -117,7 +70,6 @@ public class VideoViewActivity extends Activity {
         imageView = findViewById(R.id.imageView);
         changeScreenImg = findViewById(R.id.changeScreenImg);
         rlContainer = findViewById(R.id.rlContainer);
-        storageCache = getVideoCache();
         mHandler = new MyHandler(this);
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -258,37 +210,6 @@ public class VideoViewActivity extends Activity {
                  */
             }
         }
-    }
-
-    /**
-     * 获取视频的缓存目录
-     *
-     * @return
-     */
-    public String getVideoCache() {
-        return Environment.getExternalStorageDirectory()
-                .getAbsolutePath() + "/" + getPackageName(this) + "/VideoCache/" + cacheVideoUrl;
-    }
-
-    /**
-     * 清除缓存
-     */
-    public void clearVideoCache() {
-        String videoCache = getVideoCache();
-        File file = new File(videoCache);
-        if (file.exists()) {
-            file.delete();
-        }
-    }
-
-    /**
-     * 判断该视频是否已经被缓存下来了
-     *
-     * @return
-     */
-    public boolean isHasCache() {
-        File file = new File(getVideoCache());
-        return file.exists();
     }
 
     /**
