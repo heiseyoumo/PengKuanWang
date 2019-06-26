@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -197,6 +198,18 @@ public class VideoViewActivity extends Activity {
         super.onDestroy();
         //clearVideoCache();
         mHandler.removeCallbacksAndMessages(null);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            //竖屏
+            isVerticalScreen = true;
+        } else {
+            //横屏
+            isVerticalScreen = false;
+        }
     }
 
     @Override
