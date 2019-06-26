@@ -2,6 +2,7 @@ package com.fancy.myapplication;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
@@ -27,6 +28,7 @@ import java.lang.ref.WeakReference;
  * @date 2019-06-22
  */
 public class VideoViewActivity extends Activity {
+    private ProgressDialog progressDialog = null;
     public String videoUrl;
     CustomVideoView mVideoView;
     ImageView imageView;
@@ -74,6 +76,7 @@ public class VideoViewActivity extends Activity {
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
+                dismissProgressDialog();
                 mp.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
                     @Override
                     public void onBufferingUpdate(MediaPlayer mp, int percent) {
@@ -141,8 +144,34 @@ public class VideoViewActivity extends Activity {
             }
         });
         ActivityCompat.requestPermissions(VideoViewActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_PERMISSION_CODE);
+        showProgressDialog();
     }
 
+    private void dismissProgressDialog() {
+        mHandler.post(new Runnable() {
+
+            @Override
+            public void run() {
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                    progressDialog = null;
+                }
+            }
+        });
+    }
+
+    private void showProgressDialog() {
+        mHandler.post(new Runnable() {
+
+            @Override
+            public void run() {
+                if (progressDialog == null) {
+                    progressDialog = ProgressDialog.show(VideoViewActivity.this,
+                            "视频缓存", "正在努力加载中 ...", true, false);
+                }
+            }
+        });
+    }
 
     int currentPosition;
 
