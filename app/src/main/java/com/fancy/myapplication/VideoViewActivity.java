@@ -16,7 +16,9 @@ import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.io.File;
@@ -31,6 +33,7 @@ public class VideoViewActivity extends Activity {
     CustomVideoView mVideoView;
     ImageView imageView;
     ImageView changeScreenImg;
+    RelativeLayout rlContainer;
     public static final int HASH_CACHE = 1000;
     private final static int VIDEO_DOWN_SUCCESS = 1002;
     private final static int VIDEO_DOWN_READY = 1003;
@@ -113,6 +116,7 @@ public class VideoViewActivity extends Activity {
         mVideoView = findViewById(R.id.videoView);
         imageView = findViewById(R.id.imageView);
         changeScreenImg = findViewById(R.id.changeScreenImg);
+        rlContainer = findViewById(R.id.rl_container);
         storageCache = getVideoCache();
         mHandler = new MyHandler(this);
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -206,10 +210,31 @@ public class VideoViewActivity extends Activity {
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             //竖屏
             isVerticalScreen = true;
+            setVideoViewScale(ViewGroup.LayoutParams.MATCH_PARENT, ScreenUtils.dipToPx(this, 290));
         } else {
             //横屏
             isVerticalScreen = false;
+            setVideoViewScale(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         }
+    }
+
+    /**
+     * 切换尺寸
+     *
+     * @param width
+     * @param height
+     */
+    public void setVideoViewScale(int width, int height) {
+
+        ViewGroup.LayoutParams videoViewLayoutParams = mVideoView.getLayoutParams();
+        videoViewLayoutParams.width = width;
+        videoViewLayoutParams.height = height;
+        mVideoView.setLayoutParams(videoViewLayoutParams);
+
+        RelativeLayout.LayoutParams rlContainerLayoutParams = (RelativeLayout.LayoutParams) rlContainer.getLayoutParams();
+        rlContainerLayoutParams.width = width;
+        rlContainerLayoutParams.height = height;
+        rlContainer.setLayoutParams(rlContainerLayoutParams);
     }
 
     @Override
