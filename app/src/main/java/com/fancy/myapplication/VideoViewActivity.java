@@ -15,6 +15,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
@@ -200,10 +201,12 @@ public class VideoViewActivity extends Activity {
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             //竖屏
             isVerticalScreen = true;
+            full(false);
             setVideoViewScale(ViewGroup.LayoutParams.MATCH_PARENT, ScreenUtils.dipToPx(this, 250));
         } else {
             //横屏
             isVerticalScreen = false;
+            full(true);
             setVideoViewScale(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         }
     }
@@ -226,6 +229,7 @@ public class VideoViewActivity extends Activity {
         rlContainerLayoutParams.height = height;
         rlContainer.setLayoutParams(rlContainerLayoutParams);
     }
+
     /**
      * [获取应用程序版本名称信息]
      *
@@ -242,5 +246,19 @@ public class VideoViewActivity extends Activity {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private void full(boolean enable) {
+        if (enable) {
+            WindowManager.LayoutParams lp = getWindow().getAttributes();
+            lp.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+            getWindow().setAttributes(lp);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        } else {
+            WindowManager.LayoutParams attr = getWindow().getAttributes();
+            attr.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getWindow().setAttributes(attr);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
     }
 }
