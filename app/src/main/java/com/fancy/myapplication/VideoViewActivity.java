@@ -33,7 +33,7 @@ import java.net.URL;
  */
 public class VideoViewActivity extends Activity {
     public String videoUrl;
-    CustomVideoView mVideoView;
+    CustomVideo1View mVideoView;
     TextView textView;
     ImageView imageView;
     ImageView imageView1;
