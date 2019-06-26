@@ -220,7 +220,7 @@ public class VideoViewActivity extends Activity {
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             //竖屏
             isVerticalScreen = true;
-            setVideoViewScale(ViewGroup.LayoutParams.MATCH_PARENT, ScreenUtils.dipToPx(this, 290));
+            setVideoViewScale(ViewGroup.LayoutParams.MATCH_PARENT, ScreenUtils.dipToPx(this, 250));
         } else {
             //横屏
             isVerticalScreen = false;
