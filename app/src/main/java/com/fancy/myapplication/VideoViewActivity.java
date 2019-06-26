@@ -3,6 +3,7 @@ package com.fancy.myapplication;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
@@ -18,12 +19,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.ref.WeakReference;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 /**
  * @author pengkuanwang
@@ -48,6 +44,7 @@ public class VideoViewActivity extends Activity {
     private int curPosition = 0;
     public static final int BTN_GONE = 101;
     MyHandler mHandler;
+    private boolean isVerticalScreen = true;
 
     static class MyHandler extends Handler {
         WeakReference<VideoViewActivity> weakReference;
@@ -168,77 +165,16 @@ public class VideoViewActivity extends Activity {
         changeScreenImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (isVerticalScreen) {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                } else {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                }
             }
         });
         ActivityCompat.requestPermissions(VideoViewActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_PERMISSION_CODE);
     }
 
-    /**
-     * 第一次播放视频的时候先从网上下载到本地
-     */
-    private void downloadVideo() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                File cacheFile = new File(getVideoCache());
-                FileOutputStream out = null;
-                InputStream is = null;
-                if (!cacheFile.exists()) {
-                    cacheFile.getParentFile().mkdirs();
-                    try {
-                        cacheFile.createNewFile();
-                        URL url = new URL(videoUrl);
-                        HttpURLConnection httpConnection = (HttpURLConnection) url
-                                .openConnection();
-                        out = new FileOutputStream(cacheFile, true);
-                        httpConnection.setRequestProperty("User-Agent", "NetFox");
-                        httpConnection.setRequestProperty("RANGE", "bytes="
-                                + readSize + "-");
-
-                        is = httpConnection.getInputStream();
-                        mediaLength = httpConnection.getContentLength();
-                        if (mediaLength == -1) {
-                            return;
-                        }
-                        byte buffer[] = new byte[4 * 1024];
-                        int size;
-                        long lastReadSize = 0;
-                        mHandler.sendEmptyMessage(VIDEO_STATE_UPDATE);
-                        while ((size = is.read(buffer)) != -1) {
-                            out.write(buffer, 0, size);
-                            readSize += size;
-                            if (!isReady) {
-                                if ((readSize - lastReadSize) > READY_BUFF) {
-                                    lastReadSize = readSize;
-                                    mHandler.sendEmptyMessage(VIDEO_DOWN_READY);
-                                }
-                            }
-                        }
-                        mHandler.sendEmptyMessage(VIDEO_DOWN_SUCCESS);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        clearVideoCache();
-                    } finally {
-                        if (out != null) {
-                            try {
-                                out.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        if (is != null) {
-                            try {
-                                is.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }
-            }
-        }).start();
-    }
 
     int currentPosition;
 
@@ -268,13 +204,11 @@ public class VideoViewActivity extends Activity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_PERMISSION_CODE) {
             if (grantResults.length == 2) {
-                playVideo();
+                /**
+                 * 获取读写权限成功
+                 */
             }
         }
-    }
-
-    private void playVideo() {
-        downloadVideo();
     }
 
     /**
