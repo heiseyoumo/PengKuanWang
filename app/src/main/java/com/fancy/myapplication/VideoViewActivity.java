@@ -29,6 +29,7 @@ public class VideoViewActivity extends Activity {
     public String videoUrl;
     CustomVideoView mVideoView;
     ImageView imageView;
+    ImageView titleImg;
     ImageView changeScreenImg;
     RelativeLayout rlContainer;
     ImageView coverImg;
@@ -67,6 +68,7 @@ public class VideoViewActivity extends Activity {
         videoUrl = getIntent().getStringExtra("url");
         mVideoView = findViewById(R.id.videoView);
         imageView = findViewById(R.id.imageView);
+        titleImg = findViewById(R.id.titleImg);
         changeScreenImg = findViewById(R.id.changeScreenImg);
         rlContainer = findViewById(R.id.rlContainer);
         coverImg = findViewById(R.id.coverImg);
@@ -136,8 +138,14 @@ public class VideoViewActivity extends Activity {
         changeScreenImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            }
+        });
+        titleImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 if (isVerticalScreen) {
-                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    finish();
                 } else {
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 }
@@ -212,12 +220,14 @@ public class VideoViewActivity extends Activity {
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             //竖屏
             isVerticalScreen = true;
-            full(false);
+            changeScreenImg.setVisibility(View.VISIBLE);
+            titleImg.setBackgroundResource(R.drawable.close_video_icon);
             setVideoViewScale(ViewGroup.LayoutParams.MATCH_PARENT, ScreenUtils.dipToPx(this, 250));
         } else {
             //横屏
             isVerticalScreen = false;
-            full(true);
+            changeScreenImg.setVisibility(View.GONE);
+            titleImg.setBackgroundResource(R.drawable.back_video_icon);
             setVideoViewScale(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         }
     }
