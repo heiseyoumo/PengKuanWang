@@ -1,6 +1,5 @@
 package com.fancy.myapplication;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -13,7 +12,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +33,6 @@ public class VideoViewActivity extends Activity {
     ImageView imageView;
     ImageView changeScreenImg;
     RelativeLayout rlContainer;
-    public static final int REQUEST_PERMISSION_CODE = 100;
     public static final int BTN_GONE = 101;
     MyHandler mHandler;
     private boolean isVerticalScreen = true;
@@ -145,7 +142,6 @@ public class VideoViewActivity extends Activity {
                 }
             }
         });
-        ActivityCompat.requestPermissions(VideoViewActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_PERMISSION_CODE);
         showProgressDialog();
     }
 
@@ -230,19 +226,6 @@ public class VideoViewActivity extends Activity {
         rlContainerLayoutParams.height = height;
         rlContainer.setLayoutParams(rlContainerLayoutParams);
     }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_PERMISSION_CODE) {
-            if (grantResults.length == 2) {
-                /**
-                 * 获取读写权限成功
-                 */
-            }
-        }
-    }
-
     /**
      * [获取应用程序版本名称信息]
      *
