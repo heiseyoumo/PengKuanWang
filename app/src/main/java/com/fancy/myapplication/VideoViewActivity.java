@@ -116,7 +116,7 @@ public class VideoViewActivity extends Activity {
         mVideoView = findViewById(R.id.videoView);
         imageView = findViewById(R.id.imageView);
         changeScreenImg = findViewById(R.id.changeScreenImg);
-        rlContainer = findViewById(R.id.rl_container);
+        rlContainer = findViewById(R.id.rlContainer);
         storageCache = getVideoCache();
         mHandler = new MyHandler(this);
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
