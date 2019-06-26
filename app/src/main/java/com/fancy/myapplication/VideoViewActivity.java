@@ -81,8 +81,8 @@ public class VideoViewActivity extends Activity {
                          * 获取当前播放的时间和当前食品的长度
                          */
                         int currentPosition = mVideoView.getCurrentPosition();
-                        int duration = mp.getDuration();
-                        Log.d("VideoViewActivity", "currentPosition=" + currentPosition + ",duration=" + duration);
+                        int bufferPercentage = mVideoView.getBufferPercentage();
+                        Log.d("VideoViewActivity", "currentPosition=" + currentPosition + ",bufferPercentage=" + bufferPercentage);
                     }
                 });
                 mp.start();
