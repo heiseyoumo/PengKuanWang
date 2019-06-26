@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -34,9 +33,7 @@ import java.net.URL;
 public class VideoViewActivity extends Activity {
     public String videoUrl;
     CustomVideo1View mVideoView;
-    TextView textView;
     ImageView imageView;
-    ImageView imageView1;
     public static final int HASH_CACHE = 1000;
     private final static int VIDEO_DOWN_SUCCESS = 1002;
     private final static int VIDEO_DOWN_READY = 1003;
@@ -68,12 +65,10 @@ public class VideoViewActivity extends Activity {
             }
             switch (msg.what) {
                 case HASH_CACHE:
-                    activity.imageView1.setVisibility(View.GONE);
                     activity.mVideoView.setVideoPath(activity.storageCache);
                     activity.mVideoView.start();
                     break;
                 case VIDEO_DOWN_READY:
-                    activity.imageView1.setVisibility(View.GONE);
                     activity.isReady = !activity.isReady;
                     activity.mVideoView.setVideoPath(activity.storageCache);
                     activity.mVideoView.start();
@@ -123,25 +118,14 @@ public class VideoViewActivity extends Activity {
         videoUrl = getIntent().getStringExtra("url");
         mVideoView = findViewById(R.id.videoView);
         imageView = findViewById(R.id.imageView);
-        imageView1 = findViewById(R.id.imageView1);
-        textView = findViewById(R.id.textView);
         int lastIndexOf = videoUrl.lastIndexOf("/");
         cacheVideoUrl = videoUrl.substring(lastIndexOf + 1);
         storageCache = getVideoCache();
         mHandler = new MyHandler(this);
         if (isHasCache()) {
             mHandler.sendEmptyMessage(HASH_CACHE);
-            Toast.makeText(this, "视频已经缓存不需要流量,请放心观看", Toast.LENGTH_SHORT).show();
-            textView.setVisibility(View.VISIBLE);
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    textView.setVisibility(View.GONE);
-                }
-            }, 3000);
         } else {
             downloadVideo();
-            textView.setVisibility(View.GONE);
         }
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -294,7 +278,6 @@ public class VideoViewActivity extends Activity {
 
     private void playVideo() {
         downloadVideo();
-        textView.setVisibility(View.GONE);
     }
 
     /**
