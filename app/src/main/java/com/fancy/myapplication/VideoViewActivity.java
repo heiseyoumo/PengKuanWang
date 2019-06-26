@@ -130,6 +130,7 @@ public class VideoViewActivity extends Activity {
                          */
                         int currentPosition = mVideoView.getCurrentPosition();
                         int duration = mp.getDuration();
+                        Log.d("VideoViewActivity", "currentPosition=" + currentPosition + ",duration=" + duration);
                     }
                 });
                 mp.start();
