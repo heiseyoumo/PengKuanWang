@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -14,9 +15,9 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -32,7 +33,7 @@ import java.net.URL;
  */
 public class VideoViewActivity extends Activity {
     public String videoUrl;
-    CustomVideo1View mVideoView;
+    VideoView mVideoView;
     ImageView imageView;
     public static final int HASH_CACHE = 1000;
     private final static int VIDEO_DOWN_SUCCESS = 1002;
@@ -111,22 +112,12 @@ public class VideoViewActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //全屏
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_video_view);
         videoUrl = getIntent().getStringExtra("url");
         mVideoView = findViewById(R.id.videoView);
         imageView = findViewById(R.id.imageView);
-        int lastIndexOf = videoUrl.lastIndexOf("/");
-        cacheVideoUrl = videoUrl.substring(lastIndexOf + 1);
         storageCache = getVideoCache();
         mHandler = new MyHandler(this);
-        if (isHasCache()) {
-            mHandler.sendEmptyMessage(HASH_CACHE);
-        } else {
-            downloadVideo();
-        }
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
@@ -146,6 +137,7 @@ public class VideoViewActivity extends Activity {
                 return false;
             }
         });
+        mVideoView.setVideoURI(Uri.parse(videoUrl));
         mHandler.sendEmptyMessageDelayed(BTN_GONE, 2000);
 
         mVideoView.setOnClickListener(new View.OnClickListener() {
