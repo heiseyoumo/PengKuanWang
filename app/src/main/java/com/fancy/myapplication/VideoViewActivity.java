@@ -165,6 +165,12 @@ public class VideoViewActivity extends Activity {
                 mHandler.sendEmptyMessageDelayed(BTN_GONE, 2000);
             }
         });
+        changeScreenImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         ActivityCompat.requestPermissions(VideoViewActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_PERMISSION_CODE);
     }
 
