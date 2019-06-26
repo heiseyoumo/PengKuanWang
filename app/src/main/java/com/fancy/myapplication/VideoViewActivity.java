@@ -122,6 +122,16 @@ public class VideoViewActivity extends Activity {
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
+                mp.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
+                    @Override
+                    public void onBufferingUpdate(MediaPlayer mp, int percent) {
+                        /**
+                         * 获取当前播放的时间和当前食品的长度
+                         */
+                        int currentPosition = mVideoView.getCurrentPosition();
+                        int duration = mp.getDuration();
+                    }
+                });
                 mp.start();
             }
         });
