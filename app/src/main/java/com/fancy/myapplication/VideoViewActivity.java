@@ -72,7 +72,7 @@ public class VideoViewActivity extends Activity {
         changeScreenImg = findViewById(R.id.changeScreenImg);
         rlContainer = findViewById(R.id.rlContainer);
         mHandler = new MyHandler(this);
-        mVideoView.setMediaController(new MediaController(this));
+        //mVideoView.setMediaController(new MediaController(this));
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
