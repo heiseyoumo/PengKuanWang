@@ -2,11 +2,9 @@ package com.fancy.myapplication;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -34,6 +31,7 @@ public class VideoViewActivity extends Activity {
     ImageView imageView;
     ImageView changeScreenImg;
     RelativeLayout rlContainer;
+    ImageView coverImg;
     public static final int BTN_GONE = 101;
     MyHandler mHandler;
     private boolean isVerticalScreen = true;
@@ -71,11 +69,13 @@ public class VideoViewActivity extends Activity {
         imageView = findViewById(R.id.imageView);
         changeScreenImg = findViewById(R.id.changeScreenImg);
         rlContainer = findViewById(R.id.rlContainer);
+        coverImg = findViewById(R.id.coverImg);
         mHandler = new MyHandler(this);
         //mVideoView.setMediaController(new MediaController(this));
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
+                coverImg.setVisibility(View.GONE);
                 dismissProgressDialog();
                 mp.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
                     @Override
@@ -141,6 +141,17 @@ public class VideoViewActivity extends Activity {
                 } else {
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 }
+            }
+        });
+        DownLoadManager.getInstance().loadImage(videoUrl, new DownLoadManager.LoadBitmapListener() {
+            @Override
+            public void setBitmap(final Bitmap bitmap) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        coverImg.setImageBitmap(bitmap);
+                    }
+                });
             }
         });
         showProgressDialog();
@@ -228,24 +239,6 @@ public class VideoViewActivity extends Activity {
         rlContainerLayoutParams.width = width;
         rlContainerLayoutParams.height = height;
         rlContainer.setLayoutParams(rlContainerLayoutParams);
-    }
-
-    /**
-     * [获取应用程序版本名称信息]
-     *
-     * @param context
-     * @return 当前应用的版本名称
-     */
-    public static synchronized String getPackageName(Context context) {
-        try {
-            PackageManager packageManager = context.getPackageManager();
-            PackageInfo packageInfo = packageManager.getPackageInfo(
-                    context.getPackageName(), 0);
-            return packageInfo.packageName;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     private void full(boolean enable) {
