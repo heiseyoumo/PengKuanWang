@@ -185,13 +185,15 @@ public class VideoViewActivity extends Activity {
         mVideoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (imageView.getVisibility() == View.GONE) {
-                    imageView.setVisibility(View.VISIBLE);
-                } else {
-                    imageView.setVisibility(View.GONE);
+                if (progressBar.getVisibility() == View.VISIBLE) {
+                    if (imageView.getVisibility() == View.GONE) {
+                        imageView.setVisibility(View.VISIBLE);
+                    } else {
+                        imageView.setVisibility(View.GONE);
+                    }
+                    mHandler.removeMessages(BTN_GONE);
+                    mHandler.sendEmptyMessageDelayed(BTN_GONE, 2000);
                 }
-                mHandler.removeMessages(BTN_GONE);
-                mHandler.sendEmptyMessageDelayed(BTN_GONE, 2000);
             }
         });
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -246,7 +248,7 @@ public class VideoViewActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         mHandler.removeCallbacksAndMessages(null);
-        mVideoView=null;
+        mVideoView = null;
     }
 
     @Override
