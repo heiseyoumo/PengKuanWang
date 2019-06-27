@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -39,6 +40,7 @@ public class VideoViewActivity extends Activity {
     TextView playTimeTv;
     TextView totalTimeTv;
     SeekBar seekBar;
+    ProgressBar progressBar;
     LinearLayout timeLayout;
     public static final int BTN_GONE = 101;
     public static final int FORMAT_VIDEO_TIME = 102;
@@ -94,6 +96,7 @@ public class VideoViewActivity extends Activity {
         totalTimeTv = findViewById(R.id.totalTimeTv);
         playTimeTv = findViewById(R.id.playTimeTv);
         seekBar = findViewById(R.id.seekBar);
+        progressBar = findViewById(R.id.progressBar);
         timeLayout = findViewById(R.id.timeLayout);
         timeLayout.setVisibility(View.GONE);
         mHandler = new MyHandler(this);
@@ -103,7 +106,7 @@ public class VideoViewActivity extends Activity {
             public void onPrepared(MediaPlayer mp) {
                 timeLayout.setVisibility(View.VISIBLE);
                 coverImg.setVisibility(View.GONE);
-                dismissProgressDialog();
+                progressBar.setVisibility(View.GONE);
                 mp.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
                     @Override
                     public void onBufferingUpdate(MediaPlayer mp, int percent) {
@@ -131,7 +134,7 @@ public class VideoViewActivity extends Activity {
                 .getAbsolutePath() + "/" +"big_buck_bunny.mp4";
         mVideoView.setVideoPath(url);*/
         mVideoView.setVideoURI(Uri.parse(videoUrl));
-        mHandler.sendEmptyMessageDelayed(BTN_GONE, 2000);
+        imageView.setVisibility(View.GONE);
         setOnClickListener();
         DownLoadManager.getInstance().loadImage(videoUrl, new DownLoadManager.LoadBitmapListener() {
             @Override
@@ -139,12 +142,11 @@ public class VideoViewActivity extends Activity {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        coverImg.setImageBitmap(bitmap);
+                        //coverImg.setImageBitmap(bitmap);
                     }
                 });
             }
         });
-        showProgressDialog();
     }
 
     /**
@@ -176,7 +178,7 @@ public class VideoViewActivity extends Activity {
                     imageView.setVisibility(View.GONE);
                 }
                 mHandler.removeMessages(BTN_GONE);
-                mHandler.sendEmptyMessageDelayed(BTN_GONE, 2000);
+                mHandler.sendEmptyMessageDelayed(BTN_GONE, 0);
             }
         });
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -206,30 +208,6 @@ public class VideoViewActivity extends Activity {
                     finish();
                 } else {
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                }
-            }
-        });
-    }
-
-    private void dismissProgressDialog() {
-        mHandler.post(new Runnable() {
-
-            @Override
-            public void run() {
-                if (progressDialog != null) {
-                    progressDialog.dismiss();
-                }
-            }
-        });
-    }
-
-    private void showProgressDialog() {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                if (progressDialog == null) {
-                    progressDialog = ProgressDialog.show(VideoViewActivity.this,
-                            "视频缓存", "正在努力加载中 ...", true, false);
                 }
             }
         });
