@@ -100,13 +100,14 @@ public class VideoViewActivity extends Activity {
         timeLayout = findViewById(R.id.timeLayout);
         timeLayout.setVisibility(View.GONE);
         mHandler = new MyHandler(this);
+        progressBar.setVisibility(View.GONE);
         mVideoView.setMediaController(new MediaController(this));
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 timeLayout.setVisibility(View.VISIBLE);
                 coverImg.setVisibility(View.GONE);
-                //progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
                 mp.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
                     @Override
                     public void onBufferingUpdate(MediaPlayer mp, int percent) {
@@ -178,7 +179,7 @@ public class VideoViewActivity extends Activity {
                     imageView.setVisibility(View.GONE);
                 }
                 mHandler.removeMessages(BTN_GONE);
-                mHandler.sendEmptyMessageDelayed(BTN_GONE, 0);
+                mHandler.sendEmptyMessageDelayed(BTN_GONE, 2000);
             }
         });
         imageView.setOnClickListener(new View.OnClickListener() {
