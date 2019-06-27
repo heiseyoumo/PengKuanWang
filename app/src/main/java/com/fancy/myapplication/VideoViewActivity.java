@@ -100,10 +100,10 @@ public class VideoViewActivity extends Activity {
                 mp.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
                     @Override
                     public void onBufferingUpdate(MediaPlayer mp, int percent) {
+                        totalTimeTv.setText(formatTime(mVideoView.getDuration()));
                         mHandler.sendEmptyMessage(FORMAT_VIDEO_TIME);
                     }
                 });
-                totalTimeTv.setText(formatTime(mVideoView.getDuration()));
                 mp.start();
             }
         });
