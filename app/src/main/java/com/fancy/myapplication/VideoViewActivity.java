@@ -222,15 +222,13 @@ public class VideoViewActivity extends Activity {
             //竖屏
             isVerticalScreen = true;
             changeScreenImg.setVisibility(View.VISIBLE);
-            titleImg.setBackgroundResource(R.drawable.close_video_icon);
-            titleImg.setVisibility(View.VISIBLE);
+            titleImg.setImageResource(R.drawable.close_video_icon);
             setVideoViewScale(ViewGroup.LayoutParams.MATCH_PARENT, ScreenUtils.dipToPx(this, 250));
         } else {
             //横屏
             isVerticalScreen = false;
             changeScreenImg.setVisibility(View.GONE);
-            titleImg.setBackgroundResource(R.drawable.back_video_icon);
-            titleImg.setVisibility(View.VISIBLE);
+            titleImg.setImageResource(R.drawable.back_video_icon);
             setVideoViewScale(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         }
     }
