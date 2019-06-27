@@ -68,6 +68,8 @@ public class VideoViewActivity extends Activity {
                      * 获取当前播放的时间和当前食品的长度
                      */
                     int currentPosition = activity.mVideoView.getCurrentPosition();
+                    double playPercent = currentPosition * 100.00 / activity.mVideoView.getDuration() * 1.0;
+                    activity.seekBar.setProgress((int) playPercent);
                     String formatTime = activity.formatTime(currentPosition);
                     activity.playTimeTv.setText(formatTime);
                     activity.mHandler.sendEmptyMessageDelayed(FORMAT_VIDEO_TIME, 1000);
