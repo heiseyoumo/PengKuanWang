@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -59,6 +60,15 @@ public class VideoViewActivity extends Activity {
                 case BTN_GONE:
                     activity.imageView.setVisibility(View.GONE);
                     break;
+                case 123:
+                    int currentPosition = activity.mVideoView.getCurrentPosition();
+                    int i = currentPosition / 1000;
+                    int hour = i / (60 * 60);
+                    int minute = i / 60 % 60;
+                    int second = i % 60;
+                    activity.playTimeTv.setText(String.format("%02d:%02d:%02d", hour, minute, second));
+                    activity.mHandler.sendEmptyMessageDelayed(123, 1000);
+                    break;
                 default:
                     break;
             }
@@ -66,7 +76,7 @@ public class VideoViewActivity extends Activity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_view);
         videoUrl = getIntent().getStringExtra("url");
@@ -80,11 +90,18 @@ public class VideoViewActivity extends Activity {
         playTimeTv = findViewById(R.id.playTimeTv);
         seekBar = findViewById(R.id.seekBar);
         mHandler = new MyHandler(this);
+        mVideoView.setMediaController(new MediaController(this));
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 coverImg.setVisibility(View.GONE);
                 dismissProgressDialog();
+                int duration = mVideoView.getDuration();
+                int i = duration / 1000;
+                int hour = i / (60 * 60);
+                int minute = i / 60 % 60;
+                int second = i % 60;
+                totalTimeTv.setText(String.format("%02d:%02d:%02d", hour, minute, second));
                 mp.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
                     @Override
                     public void onBufferingUpdate(MediaPlayer mp, int percent) {
@@ -92,8 +109,7 @@ public class VideoViewActivity extends Activity {
                          * 获取当前播放的时间和当前食品的长度
                          */
                         int currentPosition = mVideoView.getCurrentPosition();
-                        int bufferPercentage = mVideoView.getBufferPercentage();
-                        Log.d("VideoViewActivity", "currentPosition=" + currentPosition + ",bufferPercentage=" + bufferPercentage);
+                        mHandler.sendEmptyMessage(123);
                     }
                 });
                 mp.start();
