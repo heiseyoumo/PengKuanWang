@@ -55,7 +55,7 @@
             android:layout_height="3dp"
             android:layout_marginRight="8dp"
             android:layout_weight="1"
-            android:background="#ff0000" />
+            android:background="@drawable/seekbar_style" />
 
         <TextView
             android:id="@+id/totalTimeTv"
