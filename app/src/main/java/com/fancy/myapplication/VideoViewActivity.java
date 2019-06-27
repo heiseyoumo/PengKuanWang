@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -38,6 +39,7 @@ public class VideoViewActivity extends Activity {
     TextView playTimeTv;
     TextView totalTimeTv;
     SeekBar seekBar;
+    LinearLayout timeLayout;
     public static final int BTN_GONE = 101;
     public static final int FORMAT_VIDEO_TIME = 102;
     MyHandler mHandler;
@@ -90,11 +92,14 @@ public class VideoViewActivity extends Activity {
         totalTimeTv = findViewById(R.id.totalTimeTv);
         playTimeTv = findViewById(R.id.playTimeTv);
         seekBar = findViewById(R.id.seekBar);
+        timeLayout = findViewById(R.id.timeLayout);
+        timeLayout.setVisibility(View.GONE);
         mHandler = new MyHandler(this);
         mVideoView.setMediaController(new MediaController(this));
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
+                timeLayout.setVisibility(View.VISIBLE);
                 coverImg.setVisibility(View.GONE);
                 dismissProgressDialog();
                 mp.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
