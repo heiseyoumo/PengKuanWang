@@ -29,19 +29,32 @@
             android:background="@drawable/play_video" />
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/changeScreenImg"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:padding="26dp"
-        android:src="@drawable/ic_screen" />
+        android:orientation="horizontal"
+        android:paddingTop="26dp"
+        android:paddingRight="26dp"
+        android:paddingBottom="26dp">
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/changeScreenImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_screen" />
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/titleImg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="15dp"
+        android:padding="10dp"
         android:src="@drawable/close_video_icon" />
 </RelativeLayout>
