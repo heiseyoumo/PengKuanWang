@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
@@ -32,6 +34,9 @@ public class VideoViewActivity extends Activity {
     ImageView changeScreenImg;
     RelativeLayout rlContainer;
     ImageView coverImg;
+    TextView playTimeTv;
+    TextView totalTimeTv;
+    SeekBar seekBar;
     public static final int BTN_GONE = 101;
     MyHandler mHandler;
     private boolean isVerticalScreen = true;
@@ -71,6 +76,9 @@ public class VideoViewActivity extends Activity {
         changeScreenImg = findViewById(R.id.changeScreenImg);
         rlContainer = findViewById(R.id.rlContainer);
         coverImg = findViewById(R.id.coverImg);
+        totalTimeTv = findViewById(R.id.totalTimeTv);
+        playTimeTv = findViewById(R.id.playTimeTv);
+        seekBar = findViewById(R.id.seekBar);
         mHandler = new MyHandler(this);
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
