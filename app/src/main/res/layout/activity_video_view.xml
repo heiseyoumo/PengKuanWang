@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#2E2D2B"
@@ -39,19 +40,30 @@
         android:paddingRight="15dp">
 
         <TextView
+            android:id="@+id/playTimeTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
-            android:text="00:00"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textSize="12sp"
+            tools:text="00:00" />
 
         <SeekBar
             android:id="@+id/seekBar"
             android:layout_width="0dp"
             android:layout_height="3dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="8dp"
             android:layout_weight="1"
             android:background="#ff0000" />
+
+        <TextView
+            android:id="@+id/totalTimeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:textColor="#ffffff"
+            android:textSize="12sp"
+            tools:text="00:00" />
 
         <ImageView
             android:id="@+id/changeScreenImg"
