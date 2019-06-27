@@ -5,14 +5,6 @@
     android:background="#2E2D2B"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/titleImg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/close_video_icon"
-        android:padding="10dp" />
-
     <RelativeLayout
         android:id="@+id/rlContainer"
         android:layout_width="match_parent"
@@ -45,4 +37,12 @@
         android:layout_alignParentBottom="true"
         android:padding="26dp"
         android:src="@drawable/ic_screen" />
+
+    <ImageView
+        android:id="@+id/titleImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@drawable/close_video_icon"
+        android:padding="10dp" />
 </RelativeLayout>
