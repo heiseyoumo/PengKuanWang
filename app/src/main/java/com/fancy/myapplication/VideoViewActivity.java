@@ -97,13 +97,13 @@ public class VideoViewActivity extends Activity {
             public void onPrepared(MediaPlayer mp) {
                 coverImg.setVisibility(View.GONE);
                 dismissProgressDialog();
-                totalTimeTv.setText(formatTime(mVideoView.getDuration()));
                 mp.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
                     @Override
                     public void onBufferingUpdate(MediaPlayer mp, int percent) {
                         mHandler.sendEmptyMessage(FORMAT_VIDEO_TIME);
                     }
                 });
+                totalTimeTv.setText(formatTime(mVideoView.getDuration()));
                 mp.start();
             }
         });
