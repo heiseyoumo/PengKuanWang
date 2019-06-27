@@ -55,6 +55,7 @@
             android:layout_height="3dp"
             android:layout_marginRight="8dp"
             android:layout_weight="1"
+            android:progressDrawable="@drawable/seek_bar_style"
             android:thumb="@null" />
 
         <TextView
