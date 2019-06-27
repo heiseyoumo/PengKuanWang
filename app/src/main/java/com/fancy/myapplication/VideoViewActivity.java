@@ -106,7 +106,7 @@ public class VideoViewActivity extends Activity {
             public void onPrepared(MediaPlayer mp) {
                 timeLayout.setVisibility(View.VISIBLE);
                 coverImg.setVisibility(View.GONE);
-                progressBar.setVisibility(View.GONE);
+                //progressBar.setVisibility(View.GONE);
                 mp.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
                     @Override
                     public void onBufferingUpdate(MediaPlayer mp, int percent) {
