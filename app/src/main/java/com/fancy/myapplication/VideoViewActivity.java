@@ -72,7 +72,6 @@ public class VideoViewActivity extends Activity {
         rlContainer = findViewById(R.id.rlContainer);
         coverImg = findViewById(R.id.coverImg);
         mHandler = new MyHandler(this);
-        //mVideoView.setMediaController(new MediaController(this));
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
@@ -107,7 +106,22 @@ public class VideoViewActivity extends Activity {
         });
         mVideoView.setVideoURI(Uri.parse(videoUrl));
         mHandler.sendEmptyMessageDelayed(BTN_GONE, 2000);
+        setOnClickListener();
+        DownLoadManager.getInstance().loadImage(videoUrl, new DownLoadManager.LoadBitmapListener() {
+            @Override
+            public void setBitmap(final Bitmap bitmap) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        coverImg.setImageBitmap(bitmap);
+                    }
+                });
+            }
+        });
+        showProgressDialog();
+    }
 
+    private void setOnClickListener() {
         mVideoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,18 +164,6 @@ public class VideoViewActivity extends Activity {
                 }
             }
         });
-        DownLoadManager.getInstance().loadImage(videoUrl, new DownLoadManager.LoadBitmapListener() {
-            @Override
-            public void setBitmap(final Bitmap bitmap) {
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        coverImg.setImageBitmap(bitmap);
-                    }
-                });
-            }
-        });
-        showProgressDialog();
     }
 
     private void dismissProgressDialog() {
