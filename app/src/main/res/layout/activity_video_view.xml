@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -52,20 +53,21 @@
             android:id="@+id/playTimeTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
             android:text="00:00:00"
             android:textColor="#ffffff"
             android:textSize="12sp" />
 
-        <SeekBar
-            android:id="@+id/seekBar"
+        <com.warkiz.widget.IndicatorSeekBar
+            android:id="@+id/indicator"
             android:layout_width="0dp"
             android:layout_height="3dp"
-            android:layout_marginRight="8dp"
             android:layout_weight="1"
             android:max="100"
-            android:progressDrawable="@drawable/seek_bar_style"
-            android:thumb="@null" />
+            app:isb_indicator_type="square_corners"
+            app:isb_show_indicator="false"
+            app:isb_thumb_drawable="@drawable/bg_circle"
+            app:isb_track_background_bar_color="#ffffff"
+            app:isb_track_progress_bar_color="#F3CE88" />
 
         <TextView
             android:id="@+id/totalTimeTv"

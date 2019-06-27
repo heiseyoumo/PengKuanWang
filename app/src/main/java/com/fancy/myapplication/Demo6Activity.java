@@ -3,7 +3,8 @@ package com.fancy.myapplication;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.SeekBar;
+
+import com.warkiz.widget.IndicatorSeekBar;
 
 /**
  * @author pengkuanwang
@@ -14,21 +15,33 @@ public class Demo6Activity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.demo6);
-        SeekBar seekBar = findViewById(R.id.seekBar);
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        IndicatorSeekBar indicator = findViewById(R.id.indicator);
+
+        IndicatorSeekBar.Builder builder = new IndicatorSeekBar.Builder(this);
+        builder.build();
+
+        indicator.setOnSeekChangeListener(new IndicatorSeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                Log.d("Demo6Activity", "onProgressChanged");
+            public void onProgressChanged(IndicatorSeekBar seekBar, int progress, float progressFloat, boolean fromUserTouch) {
+                Log.d("Demo6Activity", "progress="+progress);
+
+
+
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                Log.d("Demo6Activity", "onStartTrackingTouch");
+            public void onSectionChanged(IndicatorSeekBar seekBar, int thumbPosOnTick, String tickBelowText, boolean fromUserTouch) {
+
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                Log.d("Demo6Activity", "onStopTrackingTouch");
+            public void onStartTrackingTouch(IndicatorSeekBar seekBar, int thumbPosOnTick) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
+
             }
         });
     }

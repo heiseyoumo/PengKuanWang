@@ -14,12 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.warkiz.widget.IndicatorSeekBar;
 
 import java.lang.ref.WeakReference;
 
@@ -37,13 +37,14 @@ public class VideoViewActivity extends Activity {
     ImageView coverImg;
     TextView playTimeTv;
     TextView totalTimeTv;
-    SeekBar seekBar;
+    IndicatorSeekBar seekBar;
     ProgressBar progressBar;
     LinearLayout timeLayout;
     public static final int BTN_GONE = 101;
     public static final int FORMAT_VIDEO_TIME = 102;
     MyHandler mHandler;
     private boolean isVerticalScreen = true;
+    boolean flag = false;
 
     static class MyHandler extends Handler {
         WeakReference<VideoViewActivity> weakReference;
@@ -68,6 +69,7 @@ public class VideoViewActivity extends Activity {
                      * 获取当前播放的时间和当前食品的长度
                      */
                     int currentPosition = activity.mVideoView.getCurrentPosition();
+                    Log.d("VideoViewActivity", "currentPosition=" + currentPosition);
                     double playPercent = currentPosition * 100.00 / activity.mVideoView.getDuration() * 1.0;
                     activity.seekBar.setProgress((int) playPercent);
                     String formatTime = activity.formatTime(currentPosition);
@@ -93,11 +95,10 @@ public class VideoViewActivity extends Activity {
         coverImg = findViewById(R.id.coverImg);
         totalTimeTv = findViewById(R.id.totalTimeTv);
         playTimeTv = findViewById(R.id.playTimeTv);
-        seekBar = findViewById(R.id.seekBar);
+        seekBar = findViewById(R.id.indicator);
         progressBar = findViewById(R.id.progressBar);
         timeLayout = findViewById(R.id.timeLayout);
         mHandler = new MyHandler(this);
-        mVideoView.setMediaController(new MediaController(this));
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
@@ -147,22 +148,30 @@ public class VideoViewActivity extends Activity {
                 return false;
             }
         });
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        seekBar.setOnSeekChangeListener(new IndicatorSeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                long duration = mVideoView.getDuration();
-                long newPosition = (duration * progress) / 100L;
+            public void onProgressChanged(IndicatorSeekBar seekBar, int progress, float progressFloat, boolean fromUserTouch) {
+                if (flag) {
+                    long duration = mVideoView.getDuration();
+                    long newPosition = (duration * progress) / 100L;
+                    mVideoView.seekTo((int) newPosition);
+                    Log.d("VideoViewActivity", "newPosition=" + newPosition);
+                }
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                mHandler.removeMessages(FORMAT_VIDEO_TIME);
+            public void onSectionChanged(IndicatorSeekBar seekBar, int thumbPosOnTick, String tickBelowText, boolean fromUserTouch) {
 
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                //mHandler.sendEmptyMessage(FORMAT_VIDEO_TIME);
+            public void onStartTrackingTouch(IndicatorSeekBar seekBar, int thumbPosOnTick) {
+                flag = true;
+            }
+
+            @Override
+            public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
+                flag = false;
             }
         });
         mVideoView.setOnClickListener(new View.OnClickListener() {
