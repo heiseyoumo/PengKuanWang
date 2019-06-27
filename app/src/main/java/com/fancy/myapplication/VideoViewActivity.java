@@ -245,8 +245,8 @@ public class VideoViewActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //clearVideoCache();
         mHandler.removeCallbacksAndMessages(null);
+        mVideoView=null;
     }
 
     @Override
