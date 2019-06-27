@@ -156,9 +156,6 @@ public class VideoViewActivity extends Activity {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                long duration = mVideoView.getDuration();
-                long newPosition = (duration * progress) / 1000L;
-                mVideoView.seekTo((int) newPosition);
                 Toast.makeText(VideoViewActivity.this, "onProgressChanged", Toast.LENGTH_SHORT).show();
             }
 
