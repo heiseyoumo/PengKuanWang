@@ -231,6 +231,16 @@ public class VideoViewActivity extends Activity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (isVerticalScreen) {
+            finish();
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+    }
+
     /**
      * 切换尺寸
      *
