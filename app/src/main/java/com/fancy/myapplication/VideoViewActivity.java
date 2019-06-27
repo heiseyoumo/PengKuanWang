@@ -152,7 +152,6 @@ public class VideoViewActivity extends Activity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 long duration = mVideoView.getDuration();
                 long newPosition = (duration * progress) / 100L;
-                mVideoView.seekTo((int) newPosition);
             }
 
             @Override
