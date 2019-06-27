@@ -52,11 +52,11 @@
         <SeekBar
             android:id="@+id/seekBar"
             android:layout_width="0dp"
-            android:layout_height="3dp"
+            android:layout_height="13dp"
             android:layout_marginRight="8dp"
             android:layout_weight="1"
             android:progressDrawable="@drawable/seek_bar_style"
-            android:thumb="@drawable/bg_circle" />
+            android:thumb="@null" />
 
         <TextView
             android:id="@+id/totalTimeTv"
