@@ -44,6 +44,7 @@ public class VideoViewActivity extends Activity {
     public static final int FORMAT_VIDEO_TIME = 102;
     MyHandler mHandler;
     private boolean isVerticalScreen = true;
+    double oldPlayPercent = 0;
 
     static class MyHandler extends Handler {
         WeakReference<VideoViewActivity> weakReference;
@@ -69,6 +70,16 @@ public class VideoViewActivity extends Activity {
                      */
                     int currentPosition = activity.mVideoView.getCurrentPosition();
                     double playPercent = currentPosition * 100.00 / activity.mVideoView.getDuration() * 1.0;
+                    if (playPercent != activity.oldPlayPercent) {
+                        if (activity.progressDialog.isShowing()) {
+                            activity.dismissProgressDialog();
+                        }
+                        activity.oldPlayPercent = playPercent;
+                    } else {
+                        if (!activity.progressDialog.isShowing()) {
+                            activity.showProgressDialog();
+                        }
+                    }
                     activity.seekBar.setProgress((int) playPercent);
                     String formatTime = activity.formatTime(currentPosition);
                     activity.playTimeTv.setText(formatTime);
@@ -144,7 +155,26 @@ public class VideoViewActivity extends Activity {
         showProgressDialog();
     }
 
+    /**
+     * 设置按钮的监听事件
+     */
     private void setOnClickListener() {
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                Toast.makeText(VideoViewActivity.this, "onProgressChanged", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                Toast.makeText(VideoViewActivity.this, "onStartTrackingTouch", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                Toast.makeText(VideoViewActivity.this, "onStopTrackingTouch", Toast.LENGTH_SHORT).show();
+            }
+        });
         mVideoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
