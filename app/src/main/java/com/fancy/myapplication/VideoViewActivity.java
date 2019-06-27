@@ -96,7 +96,6 @@ public class VideoViewActivity extends Activity {
         seekBar = findViewById(R.id.seekBar);
         progressBar = findViewById(R.id.progressBar);
         timeLayout = findViewById(R.id.timeLayout);
-        timeLayout.setVisibility(View.GONE);
         mHandler = new MyHandler(this);
         mVideoView.setMediaController(new MediaController(this));
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -115,22 +114,9 @@ public class VideoViewActivity extends Activity {
                 mp.start();
             }
         });
-        mVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                Toast.makeText(VideoViewActivity.this, "播放完成", Toast.LENGTH_SHORT).show();
-            }
-        });
-        mVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-            @Override
-            public boolean onError(MediaPlayer mp, int what, int extra) {
-                Toast.makeText(VideoViewActivity.this, "播放失败", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
+        setOnClickListener();
         mVideoView.setVideoURI(Uri.parse(videoUrl));
         imageView.setVisibility(View.GONE);
-        setOnClickListener();
         DownLoadManager.getInstance().loadImage(videoUrl, new DownLoadManager.LoadBitmapListener() {
             @Override
             public void setBitmap(final Bitmap bitmap) {
@@ -147,6 +133,20 @@ public class VideoViewActivity extends Activity {
      * 设置按钮的监听事件
      */
     private void setOnClickListener() {
+        mVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                Toast.makeText(VideoViewActivity.this, "播放完成", Toast.LENGTH_SHORT).show();
+            }
+        });
+        mVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(VideoViewActivity.this, "播放失败", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {

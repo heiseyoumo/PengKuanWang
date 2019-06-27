@@ -53,9 +53,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
+            android:text="00:00:00"
             android:textColor="#ffffff"
-            android:textSize="12sp"
-            tools:text="00:00" />
+            android:textSize="12sp" />
 
         <SeekBar
             android:id="@+id/seekBar"
@@ -72,9 +72,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
+            android:text="00:00:00"
             android:textColor="#ffffff"
-            android:textSize="12sp"
-            tools:text="00:00" />
+            android:textSize="12sp" />
 
         <ImageView
             android:id="@+id/changeScreenImg"
