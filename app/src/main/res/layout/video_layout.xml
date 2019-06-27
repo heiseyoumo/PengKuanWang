@@ -95,7 +95,7 @@
                     android:layout_toRightOf="@id/iv_volume"
                     android:progressDrawable="@drawable/seekbar_style"
                     android:thumb="@null"
-                    android:visibility="gone" />
+                    />
 
                 <ImageView
                     android:id="@+id/btn_screen"
