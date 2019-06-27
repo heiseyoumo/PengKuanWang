@@ -45,6 +45,7 @@ public class VideoViewActivity extends Activity {
     MyHandler mHandler;
     private boolean isVerticalScreen = true;
     boolean flag = false;
+    int old_duration;
 
     static class MyHandler extends Handler {
         WeakReference<VideoViewActivity> weakReference;
@@ -69,11 +70,23 @@ public class VideoViewActivity extends Activity {
                      * 获取当前播放的时间和当前食品的长度
                      */
                     int currentPosition = activity.mVideoView.getCurrentPosition();
-                    Log.d("VideoViewActivity", "currentPosition=" + currentPosition);
                     double playPercent = currentPosition * 100.00 / activity.mVideoView.getDuration() * 1.0;
                     activity.seekBar.setProgress((int) playPercent);
                     String formatTime = activity.formatTime(currentPosition);
                     activity.playTimeTv.setText(formatTime);
+                    int duration = activity.mVideoView.getCurrentPosition();
+                    if (activity.old_duration == duration && activity.mVideoView.isPlaying()) {
+                        if (activity.progressBar.getVisibility() == View.GONE) {
+                            activity.progressBar.setVisibility(View.VISIBLE);
+                        }
+                        Log.d("VideoViewActivity", "播放状态卡顿");
+                    } else {
+                        if (activity.progressBar.getVisibility() == View.VISIBLE) {
+                            activity.progressBar.setVisibility(View.GONE);
+                        }
+                        Log.d("VideoViewActivity", "播放状态顺畅");
+                    }
+                    activity.old_duration = duration;
                     activity.mHandler.sendEmptyMessageDelayed(FORMAT_VIDEO_TIME, 1000);
                     break;
                 default:
@@ -105,13 +118,8 @@ public class VideoViewActivity extends Activity {
                 timeLayout.setVisibility(View.VISIBLE);
                 coverImg.setVisibility(View.GONE);
                 progressBar.setVisibility(View.GONE);
-                mp.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
-                    @Override
-                    public void onBufferingUpdate(MediaPlayer mp, int percent) {
-                        totalTimeTv.setText(formatTime(mVideoView.getDuration()));
-                        mHandler.sendEmptyMessage(FORMAT_VIDEO_TIME);
-                    }
-                });
+                totalTimeTv.setText(formatTime(mVideoView.getDuration()));
+                mHandler.sendEmptyMessage(FORMAT_VIDEO_TIME);
                 mp.start();
             }
         });
