@@ -185,7 +185,7 @@ public class VideoViewActivity extends Activity {
         mVideoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (progressBar.getVisibility() == View.VISIBLE) {
+                if (progressBar.getVisibility() == View.GONE) {
                     if (imageView.getVisibility() == View.GONE) {
                         imageView.setVisibility(View.VISIBLE);
                     } else {
