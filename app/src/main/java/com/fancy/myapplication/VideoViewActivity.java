@@ -39,6 +39,7 @@ public class VideoViewActivity extends Activity {
     TextView totalTimeTv;
     SeekBar seekBar;
     public static final int BTN_GONE = 101;
+    public static final int FORMAT_VIDEO_TIME = 102;
     MyHandler mHandler;
     private boolean isVerticalScreen = true;
 
@@ -60,14 +61,14 @@ public class VideoViewActivity extends Activity {
                 case BTN_GONE:
                     activity.imageView.setVisibility(View.GONE);
                     break;
-                case 123:
+                case FORMAT_VIDEO_TIME:
+                    /**
+                     * 获取当前播放的时间和当前食品的长度
+                     */
                     int currentPosition = activity.mVideoView.getCurrentPosition();
-                    int i = currentPosition / 1000;
-                    int hour = i / (60 * 60);
-                    int minute = i / 60 % 60;
-                    int second = i % 60;
-                    activity.playTimeTv.setText(String.format("%02d:%02d:%02d", hour, minute, second));
-                    activity.mHandler.sendEmptyMessageDelayed(123, 1000);
+                    String formatTime = activity.formatTime(currentPosition);
+                    activity.playTimeTv.setText(formatTime);
+                    activity.mHandler.sendEmptyMessageDelayed(FORMAT_VIDEO_TIME, 1000);
                     break;
                 default:
                     break;
@@ -96,20 +97,11 @@ public class VideoViewActivity extends Activity {
             public void onPrepared(MediaPlayer mp) {
                 coverImg.setVisibility(View.GONE);
                 dismissProgressDialog();
-                int duration = mVideoView.getDuration();
-                int i = duration / 1000;
-                int hour = i / (60 * 60);
-                int minute = i / 60 % 60;
-                int second = i % 60;
-                totalTimeTv.setText(String.format("%02d:%02d:%02d", hour, minute, second));
+                totalTimeTv.setText(formatTime(mVideoView.getDuration()));
                 mp.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
                     @Override
                     public void onBufferingUpdate(MediaPlayer mp, int percent) {
-                        /**
-                         * 获取当前播放的时间和当前食品的长度
-                         */
-                        int currentPosition = mVideoView.getCurrentPosition();
-                        mHandler.sendEmptyMessage(123);
+                        mHandler.sendEmptyMessage(FORMAT_VIDEO_TIME);
                     }
                 });
                 mp.start();
@@ -264,6 +256,20 @@ public class VideoViewActivity extends Activity {
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
+    }
+
+    /**
+     * 将视频播放的时间格式化
+     *
+     * @param time
+     * @return
+     */
+    public String formatTime(int time) {
+        int i = time / 1000;
+        int hour = i / (60 * 60);
+        int minute = i / 60 % 60;
+        int second = i % 60;
+        return String.format("%02d:%02d:%02d", hour, minute, second);
     }
 
     /**
