@@ -44,7 +44,6 @@ public class VideoViewActivity extends Activity {
     public static final int FORMAT_VIDEO_TIME = 102;
     MyHandler mHandler;
     private boolean isVerticalScreen = true;
-    double oldPlayPercent = 0;
 
     static class MyHandler extends Handler {
         WeakReference<VideoViewActivity> weakReference;
@@ -70,16 +69,6 @@ public class VideoViewActivity extends Activity {
                      */
                     int currentPosition = activity.mVideoView.getCurrentPosition();
                     double playPercent = currentPosition * 100.00 / activity.mVideoView.getDuration() * 1.0;
-                    if (playPercent != activity.oldPlayPercent) {
-                        if (activity.progressDialog.isShowing()) {
-                            activity.dismissProgressDialog();
-                        }
-                        activity.oldPlayPercent = playPercent;
-                    } else {
-                        if (!activity.progressDialog.isShowing()) {
-                            activity.showProgressDialog();
-                        }
-                    }
                     activity.seekBar.setProgress((int) playPercent);
                     String formatTime = activity.formatTime(currentPosition);
                     activity.playTimeTv.setText(formatTime);
@@ -226,7 +215,6 @@ public class VideoViewActivity extends Activity {
             public void run() {
                 if (progressDialog != null) {
                     progressDialog.dismiss();
-                    progressDialog = null;
                 }
             }
         });
@@ -234,7 +222,6 @@ public class VideoViewActivity extends Activity {
 
     private void showProgressDialog() {
         mHandler.post(new Runnable() {
-
             @Override
             public void run() {
                 if (progressDialog == null) {
