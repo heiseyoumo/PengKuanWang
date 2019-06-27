@@ -127,6 +127,9 @@ public class VideoViewActivity extends Activity {
                 return false;
             }
         });
+        /*String url=Environment.getExternalStorageDirectory()
+                .getAbsolutePath() + "/" +"big_buck_bunny.mp4";
+        mVideoView.setVideoPath(url);*/
         mVideoView.setVideoURI(Uri.parse(videoUrl));
         mHandler.sendEmptyMessageDelayed(BTN_GONE, 2000);
         setOnClickListener();
