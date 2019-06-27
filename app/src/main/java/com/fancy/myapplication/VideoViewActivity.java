@@ -1,7 +1,6 @@
 package com.fancy.myapplication;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -29,7 +28,6 @@ import java.lang.ref.WeakReference;
  * @date 2019-06-22
  */
 public class VideoViewActivity extends Activity {
-    private ProgressDialog progressDialog = null;
     public String videoUrl;
     CustomVideoView mVideoView;
     ImageView imageView;
@@ -130,9 +128,6 @@ public class VideoViewActivity extends Activity {
                 return false;
             }
         });
-        /*String url=Environment.getExternalStorageDirectory()
-                .getAbsolutePath() + "/" +"big_buck_bunny.mp4";
-        mVideoView.setVideoPath(url);*/
         mVideoView.setVideoURI(Uri.parse(videoUrl));
         imageView.setVisibility(View.GONE);
         setOnClickListener();
@@ -142,7 +137,6 @@ public class VideoViewActivity extends Activity {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        //coverImg.setImageBitmap(bitmap);
                     }
                 });
             }
@@ -156,17 +150,20 @@ public class VideoViewActivity extends Activity {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                Toast.makeText(VideoViewActivity.this, "onProgressChanged", Toast.LENGTH_SHORT).show();
+                long duration = mVideoView.getDuration();
+                long newPosition = (duration * progress) / 100L;
+                mVideoView.seekTo((int) newPosition);
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                Toast.makeText(VideoViewActivity.this, "onStartTrackingTouch", Toast.LENGTH_SHORT).show();
+                mHandler.removeMessages(FORMAT_VIDEO_TIME);
+
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                Toast.makeText(VideoViewActivity.this, "onStopTrackingTouch", Toast.LENGTH_SHORT).show();
+                //mHandler.sendEmptyMessage(FORMAT_VIDEO_TIME);
             }
         });
         mVideoView.setOnClickListener(new View.OnClickListener() {

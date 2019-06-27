@@ -61,6 +61,7 @@
             android:layout_height="13dp"
             android:layout_marginRight="8dp"
             android:layout_weight="1"
+            android:max="100"
             android:progressDrawable="@drawable/seek_bar_style"
             android:thumb="@null" />
 
