@@ -73,8 +73,8 @@ public class VideoViewActivity extends Activity {
                      * 获取当前播放的时间和当前食品的长度
                      */
                     int currentPosition = activity.mVideoView.getCurrentPosition();
+                    Log.d("VideoViewActivity", "currentPosition:" + currentPosition);
                     double playPercent = currentPosition * 100.00 / activity.mVideoView.getDuration() * 1.0;
-                    int bufferPercentage = activity.mVideoView.getBufferPercentage();
                     activity.seekBar.setProgress((int) playPercent);
                     String formatTime = activity.formatTime(currentPosition);
                     activity.playTimeTv.setText(formatTime);
@@ -233,25 +233,25 @@ public class VideoViewActivity extends Activity {
         });
     }
 
-    int currentPosition;
+    int currentPosition1;
 
     @Override
     protected void onResume() {
         super.onResume();
         if (prepared) {
-            mVideoView.seekTo(currentPosition);
-            Log.d("VideoViewActivity", "onResume:" + currentPosition);
+            mVideoView.seekTo(currentPosition1);
+            Log.d("VideoViewActivity", "onResume:" + currentPosition1);
             mHandler.sendEmptyMessage(FORMAT_VIDEO_TIME);
         }
     }
 
     @Override
     protected void onPause() {
+        super.onPause();
         mVideoView.pause();
         mHandler.removeMessages(FORMAT_VIDEO_TIME);
-        currentPosition = mVideoView.getCurrentPosition();
-        Log.d("VideoViewActivity", "onPause:" + currentPosition);
-        super.onPause();
+        currentPosition1 = mVideoView.getCurrentPosition();
+        Log.d("VideoViewActivity", "onPause:" + currentPosition1);
     }
 
     @Override
