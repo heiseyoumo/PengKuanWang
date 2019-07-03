@@ -118,6 +118,7 @@ public class VideoViewActivity extends Activity {
         seekBar = findViewById(R.id.indicator);
         progressBar = findViewById(R.id.progressBar);
         timeLayout = findViewById(R.id.timeLayout);
+        timeLayout.setVisibility(View.GONE);
         mHandler = new MyHandler(this);
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
