@@ -2,13 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ff0000"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-   <TextView
-       android:id="@+id/textView"
-       android:layout_width="match_parent"
-       android:textSize="23sp"
-       android:text="去播放界面"
-       android:gravity="center"
-       android:layout_height="60dp" />
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#00ff00" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:text="去播放界面"
+        android:background="#ffffff"
+        android:textSize="23sp" />
 </LinearLayout>

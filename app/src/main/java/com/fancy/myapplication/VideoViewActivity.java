@@ -71,6 +71,7 @@ public class VideoViewActivity extends Activity {
                      */
                     int currentPosition = activity.mVideoView.getCurrentPosition();
                     double playPercent = currentPosition * 100.00 / activity.mVideoView.getDuration() * 1.0;
+                    int bufferPercentage = activity.mVideoView.getBufferPercentage();
                     activity.seekBar.setProgress((int) playPercent);
                     String formatTime = activity.formatTime(currentPosition);
                     activity.playTimeTv.setText(formatTime);
@@ -233,21 +234,21 @@ public class VideoViewActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("VideoViewActivity", "onResume");
-        mVideoView.seekTo(currentPosition);
+        mVideoView.resume();
+        Log.d("VideoViewActivity", "onResume:" + currentPosition);
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d("VideoViewActivity", "onPause");
-        currentPosition = mVideoView.getCurrentPosition();
+    protected void onStop() {
+        mVideoView.suspend();
+        super.onStop();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mHandler.removeCallbacksAndMessages(null);
+        mVideoView.pause();
         mVideoView = null;
     }
 

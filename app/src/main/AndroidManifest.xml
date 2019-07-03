@@ -13,13 +13,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Demo1Activity">
+        <activity android:name=".Demo10Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Demo9Activity"></activity>
         <activity
             android:name=".VideoViewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
