@@ -28,5 +28,5 @@ dependencies {
     implementation 'cn.jzvd:jiaozivideoplayer:7.0.4'
     implementation 'com.github.warkiz.widget:indicatorseekbar:1.1.2'
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
-    implementation project(':pluginlib')
+    implementation project(path: ':pluginlib')
 }

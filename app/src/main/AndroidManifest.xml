@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Demo12Activity">
+        <activity android:name=".Demo13Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,6 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Demo9Activity"></activity>
+        <activity android:name="com.fancy.pluginlib.ProxyActivity" />
         <activity
             android:name=".VideoViewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"

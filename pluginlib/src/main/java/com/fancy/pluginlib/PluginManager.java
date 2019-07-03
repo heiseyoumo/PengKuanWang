@@ -24,6 +24,15 @@ public class PluginManager {
     DexClassLoader dexClassLoader;
     private Context mContext;
     PackageInfo packageInfo;
+    AssetManager assetManager;
+
+    public AssetManager getAssetManager() {
+        return assetManager;
+    }
+
+    public PackageInfo getPackageInfo() {
+        return packageInfo;
+    }
 
     private volatile static PluginManager instance = new PluginManager();
 
@@ -39,10 +48,6 @@ public class PluginManager {
         return dexClassLoader;
     }
 
-    public Context getmContext() {
-        return mContext;
-    }
-
     public void init(Context context) {
         this.mContext = context.getApplicationContext();
     }
@@ -52,7 +57,7 @@ public class PluginManager {
         packageInfo = mContext.getPackageManager().getPackageArchiveInfo(apkPath, PackageManager.GET_ACTIVITIES);
         dexClassLoader = new DexClassLoader(apkPath, file.getAbsolutePath(), null, mContext.getClassLoader());
         try {
-            AssetManager assetManager = AssetManager.class.newInstance();
+            assetManager = AssetManager.class.newInstance();
             Method assetPath = AssetManager.class.getDeclaredMethod("addAssetPath", String.class);
             assetPath.invoke(assetManager, apkPath);
             resources = new Resources(assetManager, mContext.getResources().getDisplayMetrics(), mContext.getResources().getConfiguration());
