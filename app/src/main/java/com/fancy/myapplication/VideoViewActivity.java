@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fancy.myapplication.util.MemoryCacheUtil;
 import com.warkiz.widget.IndicatorSeekBar;
 
 import java.lang.ref.WeakReference;
@@ -46,6 +47,8 @@ public class VideoViewActivity extends Activity {
     private boolean isVerticalScreen = true;
     boolean flag = false;
     int old_duration;
+    boolean prepared;
+
 
     static class MyHandler extends Handler {
         WeakReference<VideoViewActivity> weakReference;
@@ -88,6 +91,9 @@ public class VideoViewActivity extends Activity {
                         Log.d("VideoViewActivity", "播放状态顺畅");
                     }
                     activity.old_duration = duration;
+                    if (activity.coverImg.getVisibility() == View.VISIBLE) {
+                        activity.coverImg.setVisibility(View.GONE);
+                    }
                     activity.mHandler.sendEmptyMessageDelayed(FORMAT_VIDEO_TIME, 1000);
                     break;
                 default:
@@ -116,25 +122,22 @@ public class VideoViewActivity extends Activity {
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
+                prepared = true;
                 timeLayout.setVisibility(View.VISIBLE);
-                coverImg.setVisibility(View.GONE);
                 progressBar.setVisibility(View.GONE);
                 totalTimeTv.setText(formatTime(mVideoView.getDuration()));
                 mHandler.sendEmptyMessage(FORMAT_VIDEO_TIME);
+                mp.setLooping(true);
                 mp.start();
             }
         });
         setOnClickListener();
         mVideoView.setVideoURI(Uri.parse(videoUrl));
         imageView.setVisibility(View.GONE);
-        DownLoadManager.getInstance().loadImage(videoUrl, new DownLoadManager.LoadBitmapListener() {
+        MemoryCacheUtil.getInstance().LoadBitmapByUrl(videoUrl, new MemoryCacheUtil.OnBitmapListener() {
             @Override
-            public void setBitmap(final Bitmap bitmap) {
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                    }
-                });
+            public void getBitmap(Bitmap bitmap) {
+                coverImg.setImageBitmap(bitmap);
             }
         });
     }
@@ -234,21 +237,26 @@ public class VideoViewActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        mVideoView.resume();
-        Log.d("VideoViewActivity", "onResume:" + currentPosition);
+        if (prepared) {
+            mVideoView.seekTo(currentPosition);
+            Log.d("VideoViewActivity", "onResume:" + currentPosition);
+            mHandler.sendEmptyMessage(FORMAT_VIDEO_TIME);
+        }
     }
 
     @Override
-    protected void onStop() {
-        mVideoView.suspend();
-        super.onStop();
+    protected void onPause() {
+        mVideoView.pause();
+        mHandler.removeMessages(FORMAT_VIDEO_TIME);
+        currentPosition = mVideoView.getCurrentPosition();
+        Log.d("VideoViewActivity", "onPause:" + currentPosition);
+        super.onPause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mHandler.removeCallbacksAndMessages(null);
-        mVideoView.pause();
         mVideoView = null;
     }
 

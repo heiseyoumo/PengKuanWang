@@ -18,7 +18,8 @@ import android.widget.Toast;
  */
 public class Demo1Activity extends Activity {
     public static final int REQUEST_PERMISSION_CODE = 100;
-    public String remoteUrl = "https://mov.bn.netease.com/open-movie/nos/mp4/2017/12/04/SD3SUEFFQ_hd.mp4";
+    public String remoteUrl1 = "https://mov.bn.netease.com/open-movie/nos/mp4/2017/12/04/SD3SUEFFQ_hd.mp4";
+    String remoteUrl = "https://m.changyoyo.com/video/baiguoyuan.mp4";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
