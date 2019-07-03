@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -48,6 +49,7 @@ public class VideoViewActivity extends Activity {
     boolean flag = false;
     int old_duration;
     boolean prepared;
+    boolean heheh;
 
 
     static class MyHandler extends Handler {
@@ -72,6 +74,11 @@ public class VideoViewActivity extends Activity {
                     /**
                      * 获取当前播放的时间和当前食品的长度
                      */
+                    if (activity.heheh) {
+                        activity.mVideoView.seekTo(activity.currentPosition1);
+                        activity.heheh = false;
+                        activity.coverImg.setVisibility(View.VISIBLE);
+                    }
                     int currentPosition = activity.mVideoView.getCurrentPosition();
                     Log.d("VideoViewActivity", "currentPosition:" + currentPosition);
                     double playPercent = currentPosition * 100.00 / activity.mVideoView.getDuration() * 1.0;
@@ -123,6 +130,14 @@ public class VideoViewActivity extends Activity {
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
+                mp.setOnInfoListener(new MediaPlayer.OnInfoListener() {
+                    @Override
+                    public boolean onInfo(MediaPlayer mp, int what, int extra) {
+                        if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START)
+                            mVideoView.setBackgroundColor(Color.TRANSPARENT);
+                        return true;
+                    }
+                });
                 prepared = true;
                 timeLayout.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
@@ -239,7 +254,6 @@ public class VideoViewActivity extends Activity {
     protected void onResume() {
         super.onResume();
         if (prepared) {
-            mVideoView.seekTo(currentPosition1);
             Log.d("VideoViewActivity", "onResume:" + currentPosition1);
             mHandler.sendEmptyMessage(FORMAT_VIDEO_TIME);
         }
@@ -248,6 +262,7 @@ public class VideoViewActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
+        heheh = true;
         mVideoView.pause();
         mHandler.removeMessages(FORMAT_VIDEO_TIME);
         currentPosition1 = mVideoView.getCurrentPosition();
@@ -258,6 +273,7 @@ public class VideoViewActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         mHandler.removeCallbacksAndMessages(null);
+        mVideoView.suspend();
         mVideoView = null;
     }
 
