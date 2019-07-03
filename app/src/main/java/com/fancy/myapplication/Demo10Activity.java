@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -28,19 +27,19 @@ public class Demo10Activity extends Activity {
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Demo10Activity.this,Demo9Activity.class));
+                startActivity(new Intent(Demo10Activity.this, Demo9Activity.class));
             }
         });
         list.add("https://m.changyoyo.com/video/baiguoyuan.mp4");
         list.add("https://m.changyoyo.com/video/wehotel.mp4");
         list.add("https://m.changyoyo.com/video/baiguoyuan.mp4");
+        for (int i = 0; i < list.size(); i++) {
+            MemoryCacheUtil.getInstance().LoadBitmapByUrl(list.get(i), new MemoryCacheUtil.OnBitmapListener() {
+                @Override
+                public void getBitmap(Bitmap bitmap) {
 
-        MemoryCacheUtil.getInstance().LoadBitmapByUrl("https://m.changyoyo.com/video/baiguoyuan.mp4", new MemoryCacheUtil.OnBitmapListener() {
-            @Override
-            public void getBitmap(Bitmap bitmap) {
-                imageView.setImageBitmap(bitmap);
-                Log.d("Demo10Activity", "图片获取成功");
-            }
-        });
+                }
+            });
+        }
     }
 }

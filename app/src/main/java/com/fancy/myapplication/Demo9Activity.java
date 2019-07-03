@@ -1,40 +1,50 @@
 package com.fancy.myapplication;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 
 import com.fancy.myapplication.util.MemoryCacheUtil;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * @author pengkuanwang
  * @date 2019-07-01
  */
 public class Demo9Activity extends Activity {
+    private ArrayList<String> list = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.demo9);
         final ImageView imageView = findViewById(R.id.imageView);
-        MemoryCacheUtil.getInstance().LoadBitmapByUrl("https://m.changyoyo.com/video/baiguoyuan.mp4", new MemoryCacheUtil.OnBitmapListener() {
+        final ImageView imageView1 = findViewById(R.id.imageView1);
+        final ImageView imageView2 = findViewById(R.id.imageView2);
+        list.add("https://m.changyoyo.com/video/baiguoyuan.mp4");
+        list.add("https://m.changyoyo.com/video/wehotel.mp4");
+        list.add("https://m.changyoyo.com/video/baiguoyuan.mp4");
+        MemoryCacheUtil.getInstance().LoadBitmapByUrl(list.get(0), new MemoryCacheUtil.OnBitmapListener() {
             @Override
             public void getBitmap(Bitmap bitmap) {
                 imageView.setImageBitmap(bitmap);
-                Log.d("Demo10Activity", "图片获取成功");
             }
         });
-        HashMap<String, String> hashMap = new HashMap();
-        hashMap.put("hehe", "hehe");
-
-        Context baseContext = getBaseContext();
-        getApplication();
-        getApplicationContext();
+        MemoryCacheUtil.getInstance().LoadBitmapByUrl(list.get(1), new MemoryCacheUtil.OnBitmapListener() {
+            @Override
+            public void getBitmap(Bitmap bitmap) {
+                imageView1.setImageBitmap(bitmap);
+            }
+        });
+        MemoryCacheUtil.getInstance().LoadBitmapByUrl(list.get(2), new MemoryCacheUtil.OnBitmapListener() {
+            @Override
+            public void getBitmap(Bitmap bitmap) {
+                imageView2.setImageBitmap(bitmap);
+            }
+        });
     }
 
     @Override

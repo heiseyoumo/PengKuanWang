@@ -1,16 +1,25 @@
 package com.fancy.myapplication.util;
 
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
 import android.os.Build;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.LruCache;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.HashMap;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author pengkuanwang
@@ -19,8 +28,8 @@ import java.util.HashMap;
 public class MemoryCacheUtil {
     private LruCache<String, Bitmap> mLruCache;
     private Handler handler = new Handler(Looper.getMainLooper());
+    ThreadPoolExecutor threadPoolExecutor;
     private volatile static MemoryCacheUtil instance;
-    private String CACHE_PATH;
 
     public static MemoryCacheUtil getInstance() {
         if (instance == null) {
@@ -90,15 +99,20 @@ public class MemoryCacheUtil {
     }
 
     /**
-     * 根据视频的url获取视频的第一帧作为封面
+     * 创建一个线程池以便于用来下载图片
+     *
+     * @param videoUrl
+     * @param onBitmapListener
      */
     private void loadBitmapFormNet(final String videoUrl, final OnBitmapListener onBitmapListener) {
-        new Thread(new Runnable() {
+        if (threadPoolExecutor == null) {
+            threadPoolExecutor = new ThreadPoolExecutor(3, 10, 10, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+        }
+        threadPoolExecutor.execute(new Runnable() {
             MediaMetadataRetriever retriever;
 
             @Override
             public void run() {
-
                 try {
                     retriever = new MediaMetadataRetriever();
                     if (Build.VERSION.SDK_INT >= 14) {
@@ -106,13 +120,14 @@ public class MemoryCacheUtil {
                     } else {
                         retriever.setDataSource(videoUrl);
                     }
-                    final Bitmap frameAtTime = retriever.getFrameAtTime();
-                    mLruCache.put(videoUrl, frameAtTime);
+                    final Bitmap frameBitmap = retriever.getFrameAtTime();
+                    mLruCache.put(videoUrl, frameBitmap);
+                    setBitmapToLocal(videoUrl, frameBitmap);
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
                             if (onBitmapListener != null) {
-                                onBitmapListener.getBitmap(frameAtTime);
+                                onBitmapListener.getBitmap(frameBitmap);
                             }
                         }
                     });
@@ -122,16 +137,47 @@ public class MemoryCacheUtil {
                     retriever.release();
                 }
             }
-        }).start();
+        });
     }
 
     /**
      * 图片存储到本地
      *
      * @param url
+     * @param frameBitmap
      */
-    private void setBitmapToLocal(String url) {
+    private void setBitmapToLocal(String url, Bitmap frameBitmap) {
+        File file = getFilePathByUrl(url);
+        File parentFile = file.getParentFile();
+        if (!parentFile.exists()) {
+            // 如果文件不存在，则创建文件夹
+            parentFile.mkdirs();
+        }
+        try {
+            if (frameBitmap != null) {
+                frameBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(file));
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
+    /**
+     * [获取应用程序版本名称信息]
+     *
+     * @param context
+     * @return 当前应用的版本名称
+     */
+    public static synchronized String getPackageName(Context context) {
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageInfo(
+                    context.getPackageName(), 0);
+            return packageInfo.packageName;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -141,17 +187,33 @@ public class MemoryCacheUtil {
      * @return
      */
     private Bitmap getBitmapFromLocal(String url) {
+        File filePathByUrl = getFilePathByUrl(url);
         Bitmap bitmap = null;
         try {
-            File file = new File(CACHE_PATH);
-            if (file.exists()) {
+            if (filePathByUrl.exists()) {
                 // 如果文件存在
-                bitmap = BitmapFactory.decodeStream(new FileInputStream(file));
+                bitmap = BitmapFactory.decodeStream(new FileInputStream(filePathByUrl));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return bitmap;
+    }
+
+    /**
+     * 根据url获取缓存的文件
+     *
+     * @param url
+     * @return
+     */
+    private File getFilePathByUrl(String url) {
+        String path = Environment.getExternalStorageDirectory()
+                .getAbsolutePath() + "/com.fancy.myapplication/video";
+        int indexOf = url.lastIndexOf("/");
+        int lastIndexOf = url.lastIndexOf(".");
+        String cacheUrl = url.substring(indexOf + 1, lastIndexOf);
+        File file = new File(path, cacheUrl);
+        return file;
     }
 
     /**
