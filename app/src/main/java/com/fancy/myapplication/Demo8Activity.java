@@ -3,10 +3,10 @@ package com.fancy.myapplication;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -33,6 +33,7 @@ public class Demo8Activity extends Activity {
     private static final int READ_TIMEOUT = 30;
     String url = "http://c.3g.163.com/photo/api/set/0001%2F2250173.json";
     TextView textView;
+    int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,31 +56,33 @@ public class Demo8Activity extends Activity {
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                call.enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, final IOException e) {
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(Demo8Activity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
+                for (int i = 0; i < 10; i++) {
+                    call.enqueue(new Callback() {
+                        @Override
+                        public void onFailure(Call call, final IOException e) {
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Log.d("Demo8Activity", count++ + "");
+                                }
+                            });
+                        }
 
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        final String result = response.body().string();
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                textView.setText(result);
-                            }
-                        });
-                    }
-                });
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            final String result = response.body().string();
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    textView.setText(result);
+                                }
+                            });
+                        }
+                    });
+                }
             }
         });
-        LinkedBlockingDeque<Runnable> linkedBlockingDeque=new LinkedBlockingDeque<>();
+        LinkedBlockingDeque<Runnable> linkedBlockingDeque = new LinkedBlockingDeque<>();
     }
 
 
