@@ -11,7 +11,6 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
@@ -46,43 +45,40 @@ public class Demo8Activity extends Activity {
         builder.writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS);
         builder.readTimeout(READ_TIMEOUT, TimeUnit.SECONDS);
         okHttpClient = builder.build();
-        RequestBody requestBody = appendParams(new HashMap<String, Object>());
-        final Request request = new Request.Builder()
-                .url(url)
-                .post(requestBody)
-                .addHeader("User-Agent", "a")
-                .build();
-        final Call call = okHttpClient.newCall(request);
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i = 0; i < 10; i++) {
-                    call.enqueue(new Callback() {
-                        @Override
-                        public void onFailure(Call call, final IOException e) {
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Log.d("Demo8Activity", count++ + "");
-                                }
-                            });
-                        }
+                RequestBody requestBody = appendParams(new HashMap<String, Object>());
+                Request request = new Request.Builder()
+                        .url(url)
+                        .post(requestBody)
+                        .addHeader("User-Agent", "a")
+                        .build();
+                final Call call = okHttpClient.newCall(request);
+                call.enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, final IOException e) {
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.d("Demo8Activity", count++ + "");
+                            }
+                        });
+                    }
 
-                        @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            final String result = response.body().string();
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    textView.setText(result);
-                                }
-                            });
-                        }
-                    });
-                }
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        final String result = response.body().string();
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                textView.setText(result);
+                            }
+                        });
+                    }
+                });
             }
         });
-        LinkedBlockingDeque<Runnable> linkedBlockingDeque = new LinkedBlockingDeque<>();
     }
 
 
