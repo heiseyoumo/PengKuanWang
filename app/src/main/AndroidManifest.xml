@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.Demo1Activity">
+        <activity android:name=".ui.Demo6Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,5 +26,7 @@
             android:name=".VideoViewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+
+        <service android:name=".ui.MyService"/>
     </application>
 </manifest>

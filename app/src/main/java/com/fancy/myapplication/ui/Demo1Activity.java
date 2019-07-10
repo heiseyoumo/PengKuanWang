@@ -25,6 +25,7 @@ public class Demo1Activity extends Activity {
         setContentView(R.layout.demo11);
         button = findViewById(R.id.button);
         final ExecutorService executorService = Executors.newFixedThreadPool(3);
+        Executors.newCachedThreadPool();
         for (int i = 0; i < 3; i++) {
             executorService.execute(new Runnable() {
                 @Override

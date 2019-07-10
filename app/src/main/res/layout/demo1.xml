@@ -15,8 +15,15 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:background="#ffffff"
         android:gravity="center"
         android:text="去播放界面"
-        android:background="#ffffff"
+        android:textSize="23sp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="创建dir"
         android:textSize="23sp" />
 </LinearLayout>

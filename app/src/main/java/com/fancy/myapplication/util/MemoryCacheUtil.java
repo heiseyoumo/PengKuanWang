@@ -53,6 +53,11 @@ public class MemoryCacheUtil {
                 int size = value.getRowBytes() * value.getHeight();
                 return size;
             }
+
+            @Override
+            protected void entryRemoved(boolean evicted, String key, Bitmap oldValue, Bitmap newValue) {
+                super.entryRemoved(evicted, key, oldValue, newValue);
+            }
         };
     }
 

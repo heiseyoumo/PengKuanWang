@@ -10,4 +10,22 @@
         android:padding="30dp"
         android:text="哈哈哈哈哈哈"
         android:textSize="23sp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="230dp"
+        android:background="@drawable/pause_video" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="230dp"
+        android:background="@drawable/ic_launcher" />
 </RelativeLayout>

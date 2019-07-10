@@ -2,6 +2,7 @@ package com.fancy.myapplication;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -11,6 +12,9 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * @author pengkuanwang
@@ -49,6 +53,21 @@ public class Demo1Activity extends Activity {
                 Intent intent = new Intent(Demo1Activity.this, VideoViewActivity.class);
                 intent.putExtra("url", remoteUrl);
                 startActivity(intent);
+            }
+        });
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(Demo1Activity.this, "哈哈", Toast.LENGTH_SHORT).show();
+                File file = getDir("heheehehhhhh", Context.MODE_PRIVATE);
+                String absolutePath = file.getAbsolutePath();
+                if (file.exists()) {
+                    try {
+                        file.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
         ActivityCompat.requestPermissions(Demo1Activity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_PERMISSION_CODE);
