@@ -28,5 +28,7 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 
         <service android:name=".ui.MyService"/>
+        <service android:name=".ui.MessengerService"
+            android:process=":remote"/>
     </application>
 </manifest>

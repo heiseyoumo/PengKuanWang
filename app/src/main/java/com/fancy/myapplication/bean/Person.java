@@ -1,11 +1,14 @@
 package com.fancy.myapplication.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * @author pengkuanwang
  * @date 2019-07-04
  */
-public class Person {
-    String name;
+public class Person implements Parcelable {
+    public String name;
     int age;
 
     public Person(String name, int age) {
@@ -13,19 +16,31 @@ public class Person {
         this.age = age;
     }
 
-    public String getName() {
-        return name;
+    public Person(Parcel in) {
+        name = in.readString();
+        age = in.readInt();
     }
 
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeInt(age);
     }
 
-    public int getAge() {
-        return age;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
+    public static final Creator<Person> CREATOR = new Creator<Person>() {
+        @Override
+        public Person createFromParcel(Parcel in) {
+            return new Person(in);
+        }
+
+        @Override
+        public Person[] newArray(int size) {
+            return new Person[size];
+        }
+    };
 }
