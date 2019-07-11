@@ -23,7 +23,7 @@ public class Demo9Activity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.demo15);
-        final ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(3, 8, 5, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(128), new ThreadFactory() {
+        final ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(3, 100, 5, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(5), new ThreadFactory() {
             private final AtomicInteger automic = new AtomicInteger(1);
             private final AtomicInteger automic1 = new AtomicInteger(1);
 
@@ -39,7 +39,7 @@ public class Demo9Activity extends Activity {
                 Log.d("Demo9Activity", "老子拒绝你了");
             }
         });
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 100; i++) {
             threadPoolExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
@@ -55,7 +55,7 @@ public class Demo9Activity extends Activity {
         findViewById(R.id.textView).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i = 0; i < 13; i++) {
+                for (int i = 0; i < 10; i++) {
                     threadPoolExecutor.execute(new Runnable() {
                         @Override
                         public void run() {
