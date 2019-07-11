@@ -3,6 +3,7 @@ package com.fancy.myapplication;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -19,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fancy.myapplication.util.MemoryCacheUtil;
 import com.fancy.myapplication.view.VideoDialog;
 import com.warkiz.widget.IndicatorSeekBar;
 
@@ -149,6 +151,12 @@ public class VideoViewActivity extends Activity {
         setOnClickListener();
         mVideoView.setVideoURI(Uri.parse(videoUrl));
         imageView.setVisibility(View.GONE);
+        MemoryCacheUtil.getInstance().LoadBitmapByUrl(videoUrl, new MemoryCacheUtil.OnBitmapListener() {
+            @Override
+            public void getBitmap(Bitmap bitmap) {
+                coverImg.setImageBitmap(bitmap);
+            }
+        });
         final VideoDialog videoDialog = new VideoDialog(this);
         videoDialog.setListener(new VideoDialog.OnItemClickListener() {
             @Override
