@@ -3,9 +3,11 @@ package com.fancy.myapplication.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fancy.myapplication.R;
+import com.fancy.myapplication.util.DM;
 
 
 /**
@@ -22,7 +24,7 @@ public class VideoDialog extends Dialog {
         View contentView = View.inflate(context, R.layout.dialog_video, null);
         setContentView(contentView);
         TextView closeVideoTv = contentView.findViewById(R.id.closeVideoTv);
-        TextView playVideoTv = contentView.findViewById(R.id.closeVideoTv);
+        TextView playVideoTv = contentView.findViewById(R.id.playVideoBtn);
         closeVideoTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,6 +41,7 @@ public class VideoDialog extends Dialog {
                 }
             }
         });
+        getWindow().setLayout(DM.getWidthPixels(), RelativeLayout.LayoutParams.WRAP_CONTENT);
     }
 
     OnItemClickListener listener;

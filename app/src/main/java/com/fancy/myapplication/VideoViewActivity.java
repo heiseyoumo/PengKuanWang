@@ -149,11 +149,11 @@ public class VideoViewActivity extends Activity {
         setOnClickListener();
         mVideoView.setVideoURI(Uri.parse(videoUrl));
         imageView.setVisibility(View.GONE);
-        VideoDialog videoDialog = new VideoDialog(this);
+        final VideoDialog videoDialog = new VideoDialog(this);
         videoDialog.setListener(new VideoDialog.OnItemClickListener() {
             @Override
             public void onClickCancel() {
-
+                videoDialog.dismiss();
             }
 
             @Override
