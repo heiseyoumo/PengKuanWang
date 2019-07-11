@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fancy.myapplication.util.MemoryCacheUtil;
+import com.fancy.myapplication.view.VideoDialog;
 import com.warkiz.widget.IndicatorSeekBar;
 
 import java.lang.ref.WeakReference;
@@ -156,6 +157,9 @@ public class VideoViewActivity extends Activity {
                 coverImg.setImageBitmap(bitmap);
             }
         });
+
+        VideoDialog videoDialog=new VideoDialog(this);
+        videoDialog.show();
     }
 
     /**
