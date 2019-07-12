@@ -1,7 +1,7 @@
 package com.fancy.myapplication.ui;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 
@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author pengkuanwang
  * @date 2019-07-11
  */
-public class Demo9Activity extends Activity {
+public class Demo9Activity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
