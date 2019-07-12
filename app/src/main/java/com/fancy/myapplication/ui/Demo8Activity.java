@@ -2,16 +2,16 @@ package com.fancy.myapplication.ui;
 
 import android.app.Activity;
 import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.view.View;
 
 import com.fancy.myapplication.IMyAidlInterface;
 import com.fancy.myapplication.R;
-import com.fancy.myapplication.view.VideoDialog;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class Demo8Activity extends Activity {
 
@@ -37,8 +37,12 @@ public class Demo8Activity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.demo18);
-        new VideoDialog(this).show();
-
-        bindService(new Intent(Demo8Activity.this, MyService1.class), serviceConnection, Context.BIND_AUTO_CREATE);
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(MessageWrap.getInstance("你大爷啊"));
+                finish();
+            }
+        });
     }
 }

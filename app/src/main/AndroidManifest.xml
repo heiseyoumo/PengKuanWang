@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.Demo8Activity"
+            android:name=".ui.Demo7Activity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,6 +29,8 @@
             android:name=".VideoViewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+
+        <activity android:name=".ui.Demo8Activity"/>
 
         <service android:name=".ui.MyService" />
         <service android:name=".ui.MyService1"/>
