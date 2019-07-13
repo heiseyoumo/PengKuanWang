@@ -13,6 +13,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 /**
  * @author pengkuanwang
@@ -52,6 +53,18 @@ public class Demo11Activity extends Activity {
                 for (Method d : declaredMethods) {
                     String name = d.getName();
                     String string = d.toGenericString();
+                    int modifiers = d.getModifiers();
+                    if (modifiers == Modifier.PUBLIC) {
+                        Toast.makeText(Demo11Activity.this, "public", Toast.LENGTH_SHORT).show();
+                    } else if (modifiers == Modifier.PRIVATE) {
+                        Toast.makeText(Demo11Activity.this, "private", Toast.LENGTH_SHORT).show();
+                    }
+                    Class<?>[] parameterTypes = d.getParameterTypes();
+                    for (int i = 0, length = parameterTypes.length; i < length; i++) {
+                        Class<?> parameterType = parameterTypes[i];
+                        String name1 = parameterType.getName();
+                        Package aPackage = parameterType.getPackage();
+                    }
                 }
             }
         });

@@ -1,1 +1,1 @@
-include ':app', ':neteasepluginapk', ':pluginlib'
+include ':app', ':neteasepluginapk', ':pluginlib', ':EventBus', ':okhttp', ':okhttp-logging-interceptor', ':okhttp-urlconnection', ':mockwebserver', ':okhttp-testing-support', ':okhttp-tls'
