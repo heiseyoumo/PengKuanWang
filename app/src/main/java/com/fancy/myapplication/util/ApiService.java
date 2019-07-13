@@ -1,6 +1,6 @@
 package com.fancy.myapplication.util;
 
-import com.fancy.myapplication.bean.Person;
+import com.fancy.myapplication.bean.Person11;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
@@ -16,5 +16,5 @@ public interface ApiService {
 
     @Headers({"Content-type:application/json;charset=UTF-8"})
     @POST("login")
-    Observable<Person> login(@Body RequestBody request);
+    Observable<Person11> login(@Body RequestBody request);
 }

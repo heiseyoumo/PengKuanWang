@@ -12,6 +12,13 @@ public class User implements Parcelable {
     public String userName;
     public boolean isMale;
 
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public User() {
+    }
+
     public User(int userId, String userName, boolean isMale) {
         this.userId = userId;
         this.userName = userName;
@@ -19,9 +26,9 @@ public class User implements Parcelable {
     }
 
     protected User(Parcel in) {
-        userId=in.readInt();
-        userName=in.readString();
-        isMale=in.readInt()==1;
+        userId = in.readInt();
+        userName = in.readString();
+        isMale = in.readInt() == 1;
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -45,6 +52,6 @@ public class User implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(userId);
         dest.writeString(userName);
-        dest.writeInt(isMale?1:0);
+        dest.writeInt(isMale ? 1 : 0);
     }
 }

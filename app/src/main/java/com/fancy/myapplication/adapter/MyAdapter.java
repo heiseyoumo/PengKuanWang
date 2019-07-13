@@ -5,7 +5,7 @@ import android.support.v4.view.ViewPager;
 import android.widget.LinearLayout;
 
 import com.fancy.myapplication.R;
-import com.fancy.myapplication.bean.Person;
+import com.fancy.myapplication.bean.Person11;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ import java.util.List;
  * @author pengkuanwang
  * @date 2019-07-04
  */
-public class MyAdapter extends BaseAdapter<Person> {
-    public MyAdapter(Context context, List<Person> data) {
+public class MyAdapter extends BaseAdapter<Person11> {
+    public MyAdapter(Context context, List<Person11> data) {
         super(context, data);
     }
 
@@ -24,7 +24,7 @@ public class MyAdapter extends BaseAdapter<Person> {
     }
 
     @Override
-    protected void convert(BaseViewHolder holder, Person data, int position) {
+    protected void convert(BaseViewHolder holder, Person11 data, int position) {
         ViewPager viewPager = holder.getView(R.id.viewPager);
         viewPager.setOffscreenPageLimit(2);
         viewPager.setCurrentItem(0);

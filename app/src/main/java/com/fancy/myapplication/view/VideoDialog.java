@@ -3,11 +3,9 @@ package com.fancy.myapplication.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fancy.myapplication.R;
-import com.fancy.myapplication.util.DM;
 
 
 /**
@@ -41,7 +39,6 @@ public class VideoDialog extends Dialog {
                 }
             }
         });
-        getWindow().setLayout(DM.getWidthPixels(), RelativeLayout.LayoutParams.WRAP_CONTENT);
     }
 
     OnItemClickListener listener;

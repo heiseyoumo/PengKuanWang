@@ -1,49 +1,52 @@
 package com.fancy.myapplication.bean;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.util.Log;
 
 /**
  * @author pengkuanwang
- * @date 2019-07-04
+ * @date 2019-07-13
  */
-public class Person implements Parcelable {
-    public String name;
-    int age;
+public class Person extends Student {
+    public double height;
+    private double weight;
 
-    public Person(){
-
+    public double getHeight() {
+        return height;
     }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public Person() {
+    }
+
     public Person(String name, int age) {
-        this.name = name;
-        this.age = age;
-    }
-
-    public Person(Parcel in) {
-        name = in.readString();
-        age = in.readInt();
+        super(name, age);
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
-        dest.writeInt(age);
+    public void student1() {
+        super.student1();
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public void person1() {
+
     }
 
-    public static final Creator<Person> CREATOR = new Creator<Person>() {
-        @Override
-        public Person createFromParcel(Parcel in) {
-            return new Person(in);
-        }
+    private String getName() {
+        return "小明";
+    }
 
-        @Override
-        public Person[] newArray(int size) {
-            return new Person[size];
-        }
-    };
+    private void setName(String name) {
+        Log.d("Person", name);
+    }
 }
