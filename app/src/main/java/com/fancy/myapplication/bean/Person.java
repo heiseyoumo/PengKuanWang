@@ -4,16 +4,18 @@ package com.fancy.myapplication.bean;
  * @author pengkuanwang
  * @date 2019-07-13
  */
-public class Person {
+public class Person extends Student {
     private double height;
     private double weight;
-    public String name;
-    private int age;
     User user;
 
     public Person(String name, int age) {
-        this.name = name;
-        this.age = age;
+        super(name, age);
+    }
+
+    @Override
+    public void student1() {
+        super.student1();
     }
 
     public void setUser(User user) {

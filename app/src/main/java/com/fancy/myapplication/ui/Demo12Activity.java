@@ -1,19 +1,26 @@
 package com.fancy.myapplication.ui;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.fancy.myapplication.R;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import butterknife.BindView;
 
 /**
  * @author pengkuanwang
  * @date 2019-07-13
  */
 public class Demo12Activity extends Activity {
+    @BindView(R.id.textView)
+    TextView textView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,8 +29,13 @@ public class Demo12Activity extends Activity {
         findViewById(R.id.textView).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Demo12Activity.this, Demo13Activity.class));
+
             }
         });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void test() {
+
     }
 }

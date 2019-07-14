@@ -15,6 +15,7 @@ public class Student {
         this.age = age;
     }
 
+    @SuppressWarnings("unused")
     public void student1() {
         Log.d("Student", "Student1");
     }
