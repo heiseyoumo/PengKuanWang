@@ -15,8 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.Demo14Activity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            android:name=".ui.Demo15Activity"
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,11 +30,10 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 
-        <activity android:name=".ui.Demo8Activity"/>
-        <activity android:name=".ui.Demo13Activity"/>
+        <activity android:name=".ui.Demo13Activity" />
 
         <service android:name=".ui.MyService" />
-        <service android:name=".ui.MyService1"/>
+        <service android:name=".ui.MyService1" />
         <service
             android:name=".ui.MessengerService"
             android:process=":remote" />
