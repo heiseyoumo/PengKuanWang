@@ -1,5 +1,7 @@
 package com.fancy.myapplication.bean;
 
+import com.fancy.myapplication.annotation.SuppressWarn;
+
 /**
  * @author pengkuanwang
  * @date 2019-07-13
@@ -18,6 +20,7 @@ public class Person extends Student {
         super.student1();
     }
 
+    @SuppressWarn(value = "hello world")
     public void setUser(User user) {
         this.user = user;
     }
