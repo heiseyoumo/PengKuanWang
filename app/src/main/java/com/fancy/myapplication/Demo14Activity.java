@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import java.util.Random;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author pengkuanwang
@@ -24,8 +23,6 @@ public class Demo14Activity extends Activity {
             Log.d("Demo14Activity", "df" + threadGroup.activeCount());
         }
         finish();
-        ReentrantLock reentrantLock = new ReentrantLock();
-
     }
 
     class MyRunnable implements Runnable {

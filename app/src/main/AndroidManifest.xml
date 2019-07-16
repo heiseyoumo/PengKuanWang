@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.Demo18Activity"
+            android:name=".ui.Demo21Activity"
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,6 +31,9 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 
         <activity android:name=".ui.Demo13Activity" />
+        <activity
+            android:name=".ui.Demo20Activity"
+            android:launchMode="singleInstance" />
 
         <service android:name=".ui.MyService" />
         <service android:name=".ui.MyService1" />
