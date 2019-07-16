@@ -2,13 +2,16 @@ package com.fancy.myapplication.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.ViewGroup;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.widget.RelativeLayout;
 
 /**
  * @author pengkuanwang
  * @date 2019-07-12
  */
-public class MyLayout extends ViewGroup {
+public class MyLayout extends RelativeLayout {
+    public static final String TAG = "MyLayout";
 
     public MyLayout(Context context) {
         super(context);
@@ -19,12 +22,29 @@ public class MyLayout extends ViewGroup {
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            Log.d(TAG, "onInterceptTouchEvent ACTION_DOWN事件");
+        }
+        if (ev.getAction() == MotionEvent.ACTION_UP) {
+            Log.d(TAG, "onInterceptTouchEvent ACTION_UP事件");
+        }
+        return super.onInterceptTouchEvent(ev);
     }
 
     @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            Log.d(TAG, "dispatchTouchEvent ACTION_DOWN事件");
+        }
+        if (ev.getAction() == MotionEvent.ACTION_UP) {
+            Log.d(TAG, "dispatchTouchEvent ACTION_UP事件");
+        }
+        return super.dispatchTouchEvent(ev);
+    }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return super.onTouchEvent(event);
     }
 }

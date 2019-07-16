@@ -24,4 +24,9 @@ public class MyButton extends Button {
     public boolean dispatchTouchEvent(MotionEvent event) {
         return super.dispatchTouchEvent(event);
     }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return super.onTouchEvent(event);
+    }
 }

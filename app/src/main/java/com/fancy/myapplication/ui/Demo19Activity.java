@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.fancy.myapplication.R;
+import com.fancy.myapplication.view.MyButton;
+import com.fancy.myapplication.view.MyLayout;
 
 /**
  * @author pengkuanwang
@@ -17,19 +19,26 @@ public class Demo19Activity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.demo19);
-        Toast.makeText(this, "getTaskId():" + getTaskId(), Toast.LENGTH_SHORT).show();
-        findViewById(R.id.layout).setOnClickListener(new View.OnClickListener() {
+        MyButton button = findViewById(R.id.button);
+        MyLayout layout = findViewById(R.id.layout);
+        View decorView = getWindow().getDecorView();
+        layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(Demo19Activity.this, "我是layout", Toast.LENGTH_SHORT).show();
             }
         });
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(Demo19Activity.this, "我是button", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return super.onTouchEvent(event);
     }
 
     @Override
