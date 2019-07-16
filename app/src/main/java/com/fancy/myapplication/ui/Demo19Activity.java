@@ -1,7 +1,6 @@
 package com.fancy.myapplication.ui;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,7 +27,6 @@ public class Demo19Activity extends Activity {
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Demo19Activity.this,Demo20Activity.class));
                 Toast.makeText(Demo19Activity.this, "我是button", Toast.LENGTH_SHORT).show();
             }
         });
