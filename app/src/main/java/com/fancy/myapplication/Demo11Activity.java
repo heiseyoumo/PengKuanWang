@@ -34,7 +34,10 @@ public class Demo11Activity extends Activity {
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Api.getDefault();
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put("name", "pkw");
+                hashMap.put("age", String.valueOf(29));
+                Api.getDefault().userLogin(getRequest(hashMap));
             }
         });
         findViewById(R.id.textView).setOnClickListener(new View.OnClickListener() {
