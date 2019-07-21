@@ -7,7 +7,7 @@ import android.widget.Toast;
 import com.fancy.myapplication.R;
 import com.fancy.myapplication.bean.Person;
 import com.fancy.myapplication.bean.Student;
-import com.fancy.myapplication.observable.Observable;
+import com.fancy.myapplication.observable.AppObservable;
 import com.fancy.myapplication.observable.Observer;
 
 /**
@@ -19,7 +19,7 @@ public class Demo18Activity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.demo18);
-        Observable<Student> observable = new Observable<Student>() {
+        AppObservable<Student> appObservable = new AppObservable<Student>() {
             @Override
             protected void subscribeActual(Observer<? super Student> observer) {
                 observer.onNext(new Person("pkw222", 34));
@@ -31,6 +31,6 @@ public class Demo18Activity extends Activity {
                 Toast.makeText(Demo18Activity.this, student.name, Toast.LENGTH_SHORT).show();
             }
         };
-        observable.subscribe(observer);
+        appObservable.subscribe(observer);
     }
 }

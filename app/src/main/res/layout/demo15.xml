@@ -8,6 +8,45 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="按钮"
+        android:background="#ff0000"
+        android:padding="10dp"
+        android:text="startService"
+        android:textSize="23sp" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_marginTop="10dp"
+        android:background="#ff0000"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="stopService"
+        android:textSize="23sp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView1"
+        android:layout_marginTop="10dp"
+        android:background="#ff0000"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="bindService"
+        android:textSize="23sp" />
+
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="10dp"
+        android:background="#ff0000"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="unBindService"
         android:textSize="23sp" />
 </RelativeLayout>

@@ -31,11 +31,12 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 
         <activity android:name=".ui.Demo13Activity" />
+        <activity android:name=".Demo17Activity" />
         <activity
             android:name=".ui.Demo20Activity"
             android:launchMode="singleInstance" />
 
-        <service android:name=".ui.MyService" />
+        <service android:name=".MyService" />
         <service android:name=".ui.MyService1" />
         <service
             android:name=".ui.MessengerService"

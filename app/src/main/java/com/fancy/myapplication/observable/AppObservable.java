@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * @author pengkuanwang
  * @date 2019-07-15
  */
-public abstract class Observable<T> implements ObservableSource<T> {
+public abstract class AppObservable<T> implements ObservableSource<T> {
     private ArrayList<Observer<T>> list;
 
     public void register(Observer observer) {

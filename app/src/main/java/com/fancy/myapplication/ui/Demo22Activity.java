@@ -32,7 +32,7 @@ public class Demo22Activity extends Activity {
         setContentView(R.layout.demo22);
         // RxJava的链式操作
         final Observable<Integer> observable = Observable.create(new ObservableOnSubscribe<Integer>() {
-            // 1. 创建被观察者(Observable) & 定义需发送的事件
+            // 1. 创建被观察者(AppObservable) & 定义需发送的事件
             @Override
             public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
                 //emitter.setDisposable(DisposableHelper.DISPOSED);

@@ -1,12 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="30dp">
 
     <Button
         android:id="@+id/buttonCreate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:text="以create形式创建观察者模式"
-        android:textSize="23sp" />
-</RelativeLayout>
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/buttonJust"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="以just形式创建观察者模式"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/buttonFromArray"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="以fromArray形式创建观察者模式"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/buttonFromIterable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="以fromIterable形式创建观察者模式"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/buttonEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="以emptye形式创建观察者模式"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/buttonDefer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="defer中的timer操作符"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/buttonTimer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="RxJava中的timer操作符"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/buttonInterval"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="RxJava中的interval操作符"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/countTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="0"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/buttonIntervalRange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="RxJava中的intervalRange操作符"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="RxJava中有条件的网络查询"
+        android:textSize="16sp" />
+</LinearLayout>
